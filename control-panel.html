@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IRONCLASH control panel - pick a robot, switch power-ups on and off, choose an arena mode and launch a match.">
+  <title>Control Panel | IRONCLASH</title>
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="IRONCLASH home">
+        <img class="brand-mark" src="images/logo.svg" alt="">
+        IRON<span>CLASH</span>
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label"><span class="burger"></span> Menu</label>
+      <nav class="main-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="roster.html">Arena Roster</a></li>
+          <li><a href="battle-log.html">Battle Log</a></li>
+          <li><a href="control-panel.html" aria-current="page">Control Panel</a></li>
+          <li><a href="team.html">Team</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="page-head">
+      <span class="eyebrow">Pre-match setup // pilot console</span>
+      <h1>Control Panel</h1>
+      <p>Get your robot ready before it goes into the arena. Pick a bot, arm its power-ups, choose where it fights and launch the match.</p>
+      <div class="hint">
+        <span aria-hidden="true">&#9432;</span>
+        <p><strong>Try it:</strong> pick a bot, then flip a few power-up switches and watch the bars, numbers and alert chips change. Try Crusher or Patch with the Repair Drone, switch the arena to Lava Floor or Night Ops, then press <em>Launch match</em>.</p>
+      </div>
+    </section>
+
+    <!-- everything inside .hud shares the same variables, so one control can change any panel -->
+    <div class="hud">
+
+      <!-- step 01: bot picker -->
+      <section class="panel hud-corners span-2" aria-labelledby="pick-title">
+        <div class="hud-title">
+          <div>
+            <span class="eyebrow">Step 01</span>
+            <h2 id="pick-title">Pick your bot</h2>
+          </div>
+          <span class="chip chip-cyan">6 bots ready</span>
+        </div>
+
+        <fieldset class="cp-fieldset">
+          <legend class="sr-only">Choose a robot</legend>
+          <div class="bot-picker">
+            <label class="pick" for="bot-titan">
+              <input class="sr-only" type="radio" name="bot" id="bot-titan" checked>
+              <img src="images/titan.svg" alt="">
+              <strong>Titan-07</strong>
+              <span class="chip chip-orange">Tank</span>
+            </label>
+            <label class="pick" for="bot-volt">
+              <input class="sr-only" type="radio" name="bot" id="bot-volt">
+              <img src="images/volt.svg" alt="">
+              <strong>Volt Runner</strong>
+              <span class="chip chip-cyan">Speed</span>
+            </label>
+            <label class="pick" for="bot-medic">
+              <input class="sr-only" type="radio" name="bot" id="bot-medic">
+              <img src="images/medic.svg" alt="">
+              <strong>Medic-Bay</strong>
+              <span class="chip chip-green">Support</span>
+            </label>
+            <label class="pick" for="bot-crusher">
+              <input class="sr-only" type="radio" name="bot" id="bot-crusher">
+              <img src="images/crusher.svg" alt="">
+              <strong>Crusher</strong>
+              <span class="chip chip-orange">Tank</span>
+            </label>
+            <label class="pick" for="bot-blink">
+              <input class="sr-only" type="radio" name="bot" id="bot-blink">
+              <img src="images/blink.svg" alt="">
+              <strong>Blink</strong>
+              <span class="chip chip-yellow">Speed</span>
+            </label>
+            <label class="pick" for="bot-patch">
+              <input class="sr-only" type="radio" name="bot" id="bot-patch">
+              <img src="images/patch.svg" alt="">
+              <strong>Patch</strong>
+              <span class="chip chip-green">Support</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- live preview: only the checked bot's picture and info are shown -->
+      <section class="panel hud-corners" aria-labelledby="preview-title">
+        <div class="hud-title">
+          <div>
+            <span class="eyebrow">Live preview</span>
+            <h2 id="preview-title">Selected bot</h2>
+          </div>
+          <span class="chip chip-cyan"><span aria-hidden="true">&#9673;</span> Linked</span>
+        </div>
+
+        <div class="hero-visual hud-corners scope">
+          <span class="scanline" aria-hidden="true"></span>
+          <span class="hud-tag t1" aria-hidden="true">Target: </span>
+          <span class="hud-tag t2" aria-hidden="true">Scan // online</span>
+          <span class="hud-tag t3" aria-hidden="true">Locked &#10003;</span>
+          <img data-bot="titan" src="images/titan.svg" alt="Titan-07, orange robot with tank treads">
+          <img data-bot="volt" src="images/volt.svg" alt="Volt Runner, slim cyan robot">
+          <img data-bot="medic" src="images/medic.svg" alt="Medic-Bay, round green robot">
+          <img data-bot="crusher" src="images/crusher.svg" alt="Crusher, red tank robot">
+          <img data-bot="blink" src="images/blink.svg" alt="Blink, yellow robot with a triangle head">
+          <img data-bot="patch" src="images/patch.svg" alt="Patch, purple robot">
+          <span class="shield-bubble" aria-hidden="true"></span>
+          <span class="reticle" aria-hidden="true"></span>
+        </div>
+
+        <div class="preview-info" data-bot="titan">
+          <h3>Titan-07</h3>
+          <p class="text-muted">Heavy armor, slow but almost impossible to knock out.</p>
+          <div class="flex wrap gap-2"><span class="chip chip-orange">Tank</span><span class="status status-online">Online</span></div>
+        </div>
+        <div class="preview-info" data-bot="volt">
+          <h3>Volt Runner</h3>
+          <p class="text-muted">Hits and runs. Wins by dodging, not by tanking.</p>
+          <div class="flex wrap gap-2"><span class="chip chip-cyan">Speed</span><span class="status status-online">Online</span></div>
+        </div>
+        <div class="preview-info" data-bot="medic">
+          <h3>Medic-Bay</h3>
+          <p class="text-muted">Drops repair drones for teammates in tag matches.</p>
+          <div class="flex wrap gap-2"><span class="chip chip-green">Support</span><span class="status status-online">Online</span></div>
+        </div>
+        <div class="preview-info" data-bot="crusher">
+          <h3>Crusher</h3>
+          <p class="text-muted">Biggest hits in the league. Shield got wrecked last match.</p>
+          <div class="flex wrap gap-2"><span class="chip chip-orange">Tank</span><span class="status status-repair">In repair</span></div>
+        </div>
+        <div class="preview-info" data-bot="blink">
+          <h3>Blink</h3>
+          <p class="text-muted">Current champ. 9 wins in a row this season.</p>
+          <div class="flex wrap gap-2"><span class="chip chip-yellow">Speed</span><span class="status status-online">Online</span></div>
+        </div>
+        <div class="preview-info" data-bot="patch">
+          <h3>Patch</h3>
+          <p class="text-muted">Jams enemy sensors. Out after losing to Blink.</p>
+          <div class="flex wrap gap-2"><span class="chip chip-green">Support</span><span class="status status-offline">Offline</span></div>
+        </div>
+      </section>
+
+      <!-- step 02: power-ups + live readout -->
+      <section class="panel hud-corners" aria-labelledby="pu-title">
+        <div class="hud-title">
+          <div>
+            <span class="eyebrow">Step 02</span>
+            <h2 id="pu-title">Power-ups</h2>
+          </div>
+          <span class="chip chip-orange">4 slots</span>
+        </div>
+
+        <!-- checkboxes come first so the ~ selector can reach .toggle-list and .readout -->
+        <input class="pu-input" type="checkbox" id="pu-overdrive">
+        <input class="pu-input" type="checkbox" id="pu-shield">
+        <input class="pu-input" type="checkbox" id="pu-repair">
+        <input class="pu-input" type="checkbox" id="pu-target">
+
+        <div class="toggle-list">
+          <label class="toggle" for="pu-overdrive">
+            <span><strong>Overdrive</strong><small>+15 ATK, +12 SPD. Runs hot and drains energy.</small></span>
+            <span class="switch" aria-hidden="true"></span>
+          </label>
+          <label class="toggle" for="pu-shield">
+            <span><strong>Shield Boost</strong><small>+55 shield. Costs some energy.</small></span>
+            <span class="switch" aria-hidden="true"></span>
+          </label>
+          <label class="toggle" for="pu-repair">
+            <span><strong>Repair Drone</strong><small>+40 hull. Fixes critical damage.</small></span>
+            <span class="switch" aria-hidden="true"></span>
+          </label>
+          <label class="toggle" for="pu-target">
+            <span><strong>Targeting Lock</strong><small>+8 ATK. Locks onto the closest enemy.</small></span>
+            <span class="switch" aria-hidden="true"></span>
+          </label>
+        </div>
+
+        <div class="readout">
+          <h3 class="eyebrow">Live readout</h3>
+          <div class="stat bar-hull"><span>HULL</span><span class="bar"><span class="fill fill-green"></span></span><span class="num"></span></div>
+          <div class="stat bar-shield"><span>SHIELD</span><span class="bar"><span class="fill fill-cyan"></span></span><span class="num"></span></div>
+          <div class="stat bar-atk"><span>ATK</span><span class="bar"><span class="fill"></span></span><span class="num"></span></div>
+          <div class="stat bar-spd"><span>SPD</span><span class="bar"><span class="fill fill-cyan"></span></span><span class="num"></span></div>
+          <div class="stat bar-energy"><span>ENERGY</span><span class="bar"><span class="fill fill-green"></span></span><span class="num"></span></div>
+          <div class="stat bar-heat"><span>HEAT</span><span class="bar"><span class="fill fill-red"></span></span><span class="num"></span></div>
+
+          <!-- alert chips: icon + word so they don't rely on color alone -->
+          <div class="alerts" aria-live="polite">
+            <span class="chip chip-cyan idle"><span aria-hidden="true">&#9675;</span> Idle // no power-ups on</span>
+            <span class="chip chip-red alert-hull"><span aria-hidden="true">&#10006;</span> Crit // hull under 25%</span>
+            <span class="chip chip-yellow alert-overdrive"><span aria-hidden="true">&#9650;</span> Warn // heat rising</span>
+            <span class="chip chip-yellow alert-drain"><span aria-hidden="true">&#9650;</span> Warn // energy low</span>
+            <span class="chip chip-green alert-shield"><span aria-hidden="true">&#10004;</span> OK // shield maxed</span>
+            <span class="chip chip-green alert-repair"><span aria-hidden="true">&#10004;</span> OK // repair drone out</span>
+            <span class="chip chip-cyan alert-target"><span aria-hidden="true">&#9678;</span> Lock // target acquired</span>
+            <span class="chip chip-yellow alert-lava"><span aria-hidden="true">&#9650;</span> Warn // lava floor +15 heat</span>
+            <span class="chip chip-cyan alert-night"><span aria-hidden="true">&#9680;</span> Info // night vision on</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- step 03: arena mode (changes the colors of the whole dashboard) -->
+      <section class="panel hud-corners" aria-labelledby="arena-title">
+        <div class="hud-title">
+          <div>
+            <span class="eyebrow">Step 03</span>
+            <h2 id="arena-title">Arena mode</h2>
+          </div>
+        </div>
+
+        <fieldset class="cp-fieldset">
+          <legend class="sr-only">Choose an arena mode</legend>
+          <div class="pick-list">
+            <label class="pick pick-row" for="arena-std">
+              <input class="sr-only" type="radio" name="arena" id="arena-std" checked>
+              <span class="pick-icon" aria-hidden="true">&#9635;</span>
+              <span><strong>Standard</strong><small>Steel floor, no hazards. Default colors.</small></span>
+            </label>
+            <label class="pick pick-row" for="arena-lava">
+              <input class="sr-only" type="radio" name="arena" id="arena-lava">
+              <span class="pick-icon" aria-hidden="true">&#9650;</span>
+              <span><strong>Lava Floor</strong><small>Vents heat the floor. Every bot runs hotter.</small></span>
+            </label>
+            <label class="pick pick-row" for="arena-night">
+              <input class="sr-only" type="radio" name="arena" id="arena-night">
+              <span class="pick-icon" aria-hidden="true">&#9680;</span>
+              <span><strong>Night Ops</strong><small>Lights out. Pilots fight on night vision.</small></span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- step 04: loadout summary + launch -->
+      <section class="panel hud-corners" id="launch-panel" aria-labelledby="launch-panel-title">
+        <div class="hud-title">
+          <div>
+            <span class="eyebrow">Step 04</span>
+            <h2 id="launch-panel-title">Launch</h2>
+          </div>
+          <span class="status status-online">Arena ready</span>
+        </div>
+
+        <div class="launch-body">
+          <!-- the dd text is written by css from the variables set above -->
+          <dl class="loadout">
+            <div><dt>Bot</dt><dd class="say-bot"></dd></div>
+            <div><dt>Arena</dt><dd class="say-arena"></dd></div>
+            <div><dt>Power-ups</dt><dd class="say-armed"></dd></div>
+          </dl>
+          <div class="radar" role="img" aria-label="Arena radar showing two enemy bots">
+            <span class="blip b1"></span>
+            <span class="blip b2"></span>
+          </div>
+        </div>
+
+        <a class="btn btn-primary" href="#launch">Launch match &rarr;</a>
+      </section>
+
+      <!-- launch overlay: shows when the url ends in #launch. it sits inside .hud so it can read the same variables -->
+      <div class="overlay" id="launch" role="dialog" aria-labelledby="launch-title">
+        <div class="overlay-box panel hud-corners launch-box">
+          <a class="overlay-close" href="#launch-panel" aria-label="Abort launch and close">&times; abort</a>
+          <span class="eyebrow">Match starting</span>
+          <h2 id="launch-title">Entering the arena</h2>
+          <div class="countdown" aria-hidden="true">
+            <span>3</span>
+            <span style="--delay:1s">2</span>
+            <span style="--delay:2s">1</span>
+            <span class="go" style="--delay:3s">Fight!</span>
+          </div>
+          <div class="bar fuse"><span class="fill fill-cyan" style="--val:100%"></span></div>
+          <p class="text-muted"><strong class="say-bot"></strong> is heading into <strong class="say-arena"></strong> with <strong class="say-armed"></strong> power-ups armed.</p>
+          <a class="btn btn-ghost" href="#launch-panel">Back to setup</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- bonus: ai pilot models (index.html links here) -->
+    <section class="section" id="ai-pilot" aria-labelledby="ai-title">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Bonus // AI pilots</span>
+          <h2 id="ai-title" class="mb-0">Choose your AI pilot</h2>
+        </div>
+        <p>Hover a card (or tab to it) to flip it and compare the specs. Equip the pilot you want driving your bot.</p>
+      </div>
+
+      <fieldset class="cp-fieldset">
+        <legend class="sr-only">AI pilot model</legend>
+        <div class="model-grid">
+          <article class="model-card">
+            <div class="model-inner">
+              <div class="model-face model-front">
+                <span class="model-icon" aria-hidden="true">&raquo;</span>
+                <div>
+                  <h3>Swift-3</h3>
+                  <p class="mb-0">Fastest reactions in the league. Made for speed bots that hit and run.</p>
+                </div>
+                <div class="flex wrap gap-2"><span class="flip-hint">Hover or tab to flip &#8635;</span><span class="chip chip-green equipped">&#10004; Equipped</span></div>
+              </div>
+              <div class="model-face model-back">
+                <h3>Swift-3 // specs</h3>
+                <div class="stat"><span>REACT</span><span class="bar"><span class="fill fill-cyan" style="--val:95%"></span></span><span>95</span></div>
+                <div class="stat"><span>TACTICS</span><span class="bar"><span class="fill" style="--val:48%"></span></span><span>48</span></div>
+                <div class="stat"><span>COST</span><span class="bar"><span class="fill fill-green" style="--val:30%"></span></span><span>30</span></div>
+                <label class="btn btn-ghost pilot-pick" for="pilot-swift"><input class="sr-only" type="radio" name="pilot" id="pilot-swift"> Equip Swift-3</label>
+                <p class="confidence mb-0">Arena win rate: <strong>54%</strong></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="model-card recommended">
+            <div class="model-inner">
+              <div class="model-face model-front">
+                <span class="model-icon" aria-hidden="true">&#9672;</span>
+                <div>
+                  <h3>Atlas-9 <span class="chip chip-orange">Top pick</span></h3>
+                  <p class="mb-0">Plans three moves ahead. The best all-rounder for any bot type.</p>
+                </div>
+                <div class="flex wrap gap-2"><span class="flip-hint">Hover or tab to flip &#8635;</span><span class="chip chip-green equipped">&#10004; Equipped</span></div>
+              </div>
+              <div class="model-face model-back">
+                <h3>Atlas-9 // specs</h3>
+                <div class="stat"><span>REACT</span><span class="bar"><span class="fill fill-cyan" style="--val:72%"></span></span><span>72</span></div>
+                <div class="stat"><span>TACTICS</span><span class="bar"><span class="fill" style="--val:94%"></span></span><span>94</span></div>
+                <div class="stat"><span>COST</span><span class="bar"><span class="fill fill-green" style="--val:80%"></span></span><span>80</span></div>
+                <label class="btn btn-ghost pilot-pick" for="pilot-atlas"><input class="sr-only" type="radio" name="pilot" id="pilot-atlas" checked> Equip Atlas-9</label>
+                <p class="confidence mb-0">Arena win rate: <strong>67%</strong></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="model-card">
+            <div class="model-inner">
+              <div class="model-face model-front">
+                <span class="model-icon" aria-hidden="true">&#9675;</span>
+                <div>
+                  <h3>Ember Lite</h3>
+                  <p class="mb-0">Cheap and steady. A good pilot for practice matches and support bots.</p>
+                </div>
+                <div class="flex wrap gap-2"><span class="flip-hint">Hover or tab to flip &#8635;</span><span class="chip chip-green equipped">&#10004; Equipped</span></div>
+              </div>
+              <div class="model-face model-back">
+                <h3>Ember Lite // specs</h3>
+                <div class="stat"><span>REACT</span><span class="bar"><span class="fill fill-cyan" style="--val:55%"></span></span><span>55</span></div>
+                <div class="stat"><span>TACTICS</span><span class="bar"><span class="fill" style="--val:60%"></span></span><span>60</span></div>
+                <div class="stat"><span>COST</span><span class="bar"><span class="fill fill-green" style="--val:10%"></span></span><span>10</span></div>
+                <label class="btn btn-ghost pilot-pick" for="pilot-ember"><input class="sr-only" type="radio" name="pilot" id="pilot-ember"> Equip Ember Lite</label>
+                <p class="confidence mb-0">Arena win rate: <strong>49%</strong></p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </fieldset>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="mb-0">IRONCLASH &copy; 2026 &middot; CSC 4370 Project 1 &middot; HTML + CSS only</p>
+      <p class="mb-0"><a href="team.html">Team</a> &middot; <a href="#main">Back to top</a></p>
+    </div>
+  </footer>
+</body>
+</html>

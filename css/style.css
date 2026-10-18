@@ -1085,26 +1085,30 @@ table {
 
 #pu-overdrive:checked ~ .toggle-list label[for="pu-overdrive"],
 #pu-shield:checked ~ .toggle-list label[for="pu-shield"],
-#pu-repair:checked ~ .toggle-list label[for="pu-repair"] {
+#pu-repair:checked ~ .toggle-list label[for="pu-repair"],
+#pu-target:checked ~ .toggle-list label[for="pu-target"] {
   border-color: var(--accent);
   background: rgba(255, 106, 43, 0.08);
 }
 
 #pu-overdrive:checked ~ .toggle-list label[for="pu-overdrive"] .switch,
 #pu-shield:checked ~ .toggle-list label[for="pu-shield"] .switch,
-#pu-repair:checked ~ .toggle-list label[for="pu-repair"] .switch {
+#pu-repair:checked ~ .toggle-list label[for="pu-repair"] .switch,
+#pu-target:checked ~ .toggle-list label[for="pu-target"] .switch {
   background: var(--accent);
 }
 
 #pu-overdrive:checked ~ .toggle-list label[for="pu-overdrive"] .switch::after,
 #pu-shield:checked ~ .toggle-list label[for="pu-shield"] .switch::after,
-#pu-repair:checked ~ .toggle-list label[for="pu-repair"] .switch::after {
+#pu-repair:checked ~ .toggle-list label[for="pu-repair"] .switch::after,
+#pu-target:checked ~ .toggle-list label[for="pu-target"] .switch::after {
   transform: translateX(24px);
 }
 
 #pu-overdrive:focus-visible ~ .toggle-list label[for="pu-overdrive"],
 #pu-shield:focus-visible ~ .toggle-list label[for="pu-shield"],
-#pu-repair:focus-visible ~ .toggle-list label[for="pu-repair"] {
+#pu-repair:focus-visible ~ .toggle-list label[for="pu-repair"],
+#pu-target:focus-visible ~ .toggle-list label[for="pu-target"] {
   outline: 3px solid var(--yellow);
   outline-offset: 3px;
 }
@@ -1133,20 +1137,22 @@ table {
 
 #pu-overdrive:checked ~ .readout .alert-overdrive,
 #pu-shield:checked ~ .readout .alert-shield,
-#pu-repair:checked ~ .readout .alert-repair {
+#pu-repair:checked ~ .readout .alert-repair,
+#pu-target:checked ~ .readout .alert-target {
   display: inline-flex;
 }
 
 #pu-overdrive:checked ~ .readout .idle,
 #pu-shield:checked ~ .readout .idle,
-#pu-repair:checked ~ .readout .idle {
+#pu-repair:checked ~ .readout .idle,
+#pu-target:checked ~ .readout .idle {
   display: none;
 }
 
-#pu-overdrive:checked ~ .readout .bar-energy .fill { width: 100%; }
-#pu-overdrive:checked ~ .readout .bar-heat .fill { width: 92%; animation: heat 0.6s ease-in-out infinite alternate; }
-#pu-shield:checked ~ .readout .bar-shield .fill { width: 100%; }
-#pu-repair:checked ~ .readout .bar-hull .fill { width: 96%; }
+/* overdrive makes the heat bar flicker */
+#pu-overdrive:checked ~ .readout .bar-heat .fill {
+  animation: heat 0.6s ease-in-out infinite alternate;
+}
 
 .radar {
   position: relative;
@@ -1181,6 +1187,424 @@ table {
 
 .radar .b1 { top: 30%; left: 62%; }
 .radar .b2 { top: 66%; left: 28%; animation-delay: 0.6s; }
+
+/* dashboard state - every control below just changes these variables */
+.hud {
+  --bot-name: "Titan-07";
+  --arena-name: "Standard";
+  /* power-up flags: 0 = off, 1 = on */
+  --od: 0;
+  --sb: 0;
+  --rd: 0;
+  --tl: 0;
+  --lava: 0;
+  counter-reset: armed;
+}
+
+/* each bot radio swaps in that bot's numbers (same stats as the roster page) */
+.hud:has(#bot-titan:checked) { --hull: 98; --atk: 84; --spd: 35; --shld: 60; --bot-name: "Titan-07"; }
+.hud:has(#bot-volt:checked) { --hull: 71; --atk: 66; --spd: 95; --shld: 30; --bot-name: "Volt Runner"; }
+.hud:has(#bot-medic:checked) { --hull: 80; --atk: 40; --spd: 62; --shld: 45; --bot-name: "Medic-Bay"; }
+.hud:has(#bot-crusher:checked) { --hull: 22; --atk: 97; --spd: 28; --shld: 10; --bot-name: "Crusher"; }
+.hud:has(#bot-blink:checked) { --hull: 64; --atk: 78; --spd: 99; --shld: 25; --bot-name: "Blink"; }
+.hud:has(#bot-patch:checked) { --hull: 12; --atk: 52; --spd: 70; --shld: 20; --bot-name: "Patch"; }
+
+/* each switch turns its flag on */
+.hud:has(#pu-overdrive:checked) { --od: 1; }
+.hud:has(#pu-shield:checked) { --sb: 1; }
+.hud:has(#pu-repair:checked) { --rd: 1; }
+.hud:has(#pu-target:checked) { --tl: 1; }
+
+/* fieldsets used as plain wrappers (min-width stops them overflowing on phones) */
+.cp-fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+#launch-panel,
+#ai-pilot {
+  scroll-margin-top: 6rem;
+}
+
+/* step 01: picker cards - the radio is hidden inside each label */
+.bot-picker {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.pick {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--speed), background var(--speed), transform var(--speed);
+}
+
+.pick:hover {
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+}
+
+.pick img {
+  width: 72px;
+  height: 72px;
+}
+
+.pick strong {
+  font-family: var(--font-head);
+}
+
+.pick small {
+  display: block;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+/* :has() lets the label react to the radio inside it */
+.pick:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-2));
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* tick in the corner so the choice isn't shown by color alone */
+.pick:has(input:checked)::after {
+  content: "\2713";
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.pick:has(input:focus-visible) {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+/* arena options are rows instead of tiles */
+.pick-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.pick-row {
+  flex-direction: row;
+  text-align: left;
+}
+
+.pick-icon {
+  flex-shrink: 0;
+  width: 2rem;
+  font-size: 1.4rem;
+  text-align: center;
+  color: var(--accent);
+}
+
+/* live preview - reuses .hero-visual from the home page */
+[data-bot] {
+  display: none;
+}
+
+.hud:has(#bot-titan:checked) [data-bot="titan"],
+.hud:has(#bot-volt:checked) [data-bot="volt"],
+.hud:has(#bot-medic:checked) [data-bot="medic"],
+.hud:has(#bot-crusher:checked) [data-bot="crusher"],
+.hud:has(#bot-blink:checked) [data-bot="blink"],
+.hud:has(#bot-patch:checked) [data-bot="patch"] {
+  display: block;
+}
+
+.scope .hud-tag {
+  text-transform: uppercase;
+}
+
+/* the target tag prints the bot name straight from the variable */
+.scope .t1::after {
+  content: var(--bot-name);
+}
+
+.hud-tag.t3 {
+  bottom: 14%;
+  left: 6%;
+  color: var(--red);
+  border-color: var(--red);
+  opacity: 0;
+  transition: opacity var(--speed);
+}
+
+.scope img {
+  transition: filter 0.4s ease;
+}
+
+.preview-info {
+  margin-top: var(--space-3);
+}
+
+.preview-info h3 {
+  margin-bottom: var(--space-1);
+}
+
+/* shield bubble around the bot */
+.shield-bubble {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+  background: radial-gradient(circle, transparent 55%, rgba(46, 230, 246, 0.2));
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+/* targeting reticle with crosshair lines */
+.reticle {
+  position: absolute;
+  inset: 24%;
+  border: 2px dashed var(--red);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reticle::before,
+.reticle::after {
+  content: "";
+  position: absolute;
+  background: var(--red);
+}
+
+.reticle::before {
+  left: calc(50% - 1px);
+  top: -12%;
+  bottom: -12%;
+  width: 2px;
+}
+
+.reticle::after {
+  top: calc(50% - 1px);
+  left: -12%;
+  right: -12%;
+  height: 2px;
+}
+
+/* what each power-up does to the preview */
+.hud:has(#pu-overdrive:checked) .scope img {
+  filter: drop-shadow(0 0 22px var(--accent)) saturate(1.4);
+}
+
+.hud:has(#pu-shield:checked) .shield-bubble {
+  opacity: 1;
+  transform: scale(1);
+  animation: shield-hum 2s ease-in-out infinite;
+}
+
+.hud:has(#pu-target:checked) .reticle {
+  animation: lock-on 0.5s ease-out both;
+}
+
+.hud:has(#pu-target:checked) .t3 {
+  opacity: 1;
+}
+
+/* step 02 readout: bar = bot's base stat + power-up bonus, kept between 0 and 100 */
+.readout .stat {
+  --now: min(100, max(0, var(--base) + var(--bonus)));
+  counter-reset: stat var(--now);
+}
+
+.readout .fill {
+  width: calc(var(--now) * 1%);
+}
+
+/* counter-reset stored the number, content prints it */
+.readout .num::after {
+  content: counter(stat);
+  color: var(--text);
+}
+
+/* how much each power-up adds or takes away (the flags are 0 or 1) */
+.bar-hull { --base: var(--hull); --bonus: calc(var(--rd) * 40); }
+.bar-shield { --base: var(--shld); --bonus: calc(var(--sb) * 55); }
+.bar-atk { --base: var(--atk); --bonus: calc(var(--od) * 15 + var(--tl) * 8); }
+.bar-spd { --base: var(--spd); --bonus: calc(var(--od) * 12); }
+.bar-energy { --base: 80; --bonus: calc(var(--od) * -30 + var(--sb) * -15 + var(--rd) * -15); }
+.bar-heat { --base: 15; --bonus: calc(var(--od) * 60 + var(--lava) * 15); }
+
+/* rows flash when a power-up kicks in */
+.hud:has(#pu-overdrive:checked) :is(.bar-atk, .bar-spd, .bar-heat, .bar-energy),
+.hud:has(#pu-shield:checked) .bar-shield,
+.hud:has(#pu-repair:checked) .bar-hull,
+.hud:has(#pu-target:checked) .bar-atk {
+  animation: power-flash 0.8s ease;
+}
+
+/* alerts that depend on more than one control */
+.hud:has(#bot-crusher:checked, #bot-patch:checked) .alert-hull {
+  display: inline-flex;
+}
+
+.hud:has(#pu-repair:checked) .alert-hull {
+  display: none;
+}
+
+/* two :has() in a row = AND. overdrive plus shield or repair drains the battery */
+.hud:has(#pu-overdrive:checked):has(#pu-shield:checked, #pu-repair:checked) .alert-drain {
+  display: inline-flex;
+}
+
+.hud:has(#arena-lava:checked) .alert-lava,
+.hud:has(#arena-night:checked) .alert-night {
+  display: inline-flex;
+}
+
+/* step 03: arena mode re-themes everything inside .hud by overriding the color variables */
+.hud:has(#arena-lava:checked) {
+  --lava: 1;
+  --arena-name: "Lava Floor";
+  --accent: #ff3b1f;
+  --accent-2: #ffd23f;
+  --panel: #2a1510;
+  --bg-2: #1a0c08;
+  --line: #5a2a1c;
+}
+
+.hud:has(#arena-night:checked) {
+  --arena-name: "Night Ops";
+  --accent: #a48bff;
+  --accent-2: #d7ccff;
+  --cyan: #3ee0a0;
+  --panel: #0c1222;
+  --bg-2: #070a12;
+  --line: #2a3158;
+}
+
+.hud:has(#arena-lava:checked) .scope {
+  box-shadow: inset 0 -80px 60px -30px rgba(255, 59, 31, 0.5);
+}
+
+.hud:has(#arena-night:checked) .scope {
+  box-shadow: inset 0 0 90px 30px rgba(0, 0, 0, 0.75);
+}
+
+/* step 04: loadout summary */
+.launch-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.loadout {
+  flex: 1 1 220px;
+  margin: 0;
+}
+
+.loadout div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  border-bottom: 1px dashed var(--line);
+}
+
+.loadout dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.loadout dd {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 700;
+}
+
+.launch-body .radar {
+  flex: 0 0 160px;
+  margin: 0 auto;
+}
+
+/* text pulled out of the variables */
+.say-bot::after { content: var(--bot-name); }
+.say-arena::after { content: var(--arena-name); }
+
+/* css counters can count: every checked power-up adds 1 */
+.pu-input:checked {
+  counter-increment: armed;
+}
+
+.say-armed::after {
+  content: counter(armed) " / 4";
+}
+
+/* launch overlay - same :target trick as the battle log replays */
+.launch-box {
+  text-align: center;
+}
+
+/* close link gets its own row here so the float doesn't push the centered text */
+.launch-box .overlay-close {
+  float: none;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.countdown {
+  display: grid;
+  place-items: center;
+  height: 8rem;
+  margin-block: var(--space-3);
+  font-family: var(--font-head);
+  font-size: clamp(4rem, 3rem + 5vw, 6.5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* all four sit in the same grid cell, stacked on top of each other */
+.countdown span {
+  grid-area: 1 / 1;
+  opacity: 0;
+}
+
+/* animation only gets added while the overlay is open, so it restarts every launch */
+.overlay:target .countdown span {
+  animation: count-step 1s ease-out var(--delay, 0s) both;
+}
+
+.overlay:target .countdown .go {
+  color: var(--green);
+  animation-name: count-go;
+}
+
+/* fuse bar fills up during the 3 second countdown */
+.fuse {
+  margin-bottom: var(--space-4);
+}
+
+.fuse .fill {
+  animation: none;
+}
+
+.overlay:target .fuse .fill {
+  animation: bar-grow 3s linear both;
+}
 
 /* ---------- 11. bonus: ai pilot model comparison (flip cards) ---------- */
 .model-grid {
@@ -1268,6 +1692,40 @@ table {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--cyan);
+}
+
+/* equip button on the back - radio hidden inside the label again */
+.pilot-pick {
+  position: relative;
+  justify-content: center;
+}
+
+.pilot-pick:has(input:checked) {
+  background: var(--green);
+  border-color: var(--green);
+  color: #06140e;
+}
+
+.pilot-pick:has(input:checked)::before {
+  content: "\2713";
+}
+
+.pilot-pick:has(input:focus-visible) {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+/* "equipped" chip on the front only shows for the chosen pilot */
+.model-card .equipped {
+  display: none;
+}
+
+.model-card:has(input:checked) .equipped {
+  display: inline-flex;
+}
+
+.model-card:has(input:checked) .model-front {
+  border-color: var(--green);
 }
 
 /* ---------- 12. page: team ---------- */
@@ -1360,6 +1818,7 @@ table {
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .model-grid { grid-template-columns: repeat(2, 1fr); }
+  .bot-picker { grid-template-columns: repeat(3, 1fr); }
 
   .leader {
     grid-template-columns: auto 1fr;
@@ -1386,6 +1845,7 @@ table {
   .grid-3 { grid-template-columns: repeat(3, 1fr); }
   .grid-4 { grid-template-columns: repeat(4, 1fr); }
   .model-grid { grid-template-columns: repeat(3, 1fr); }
+  .bot-picker { grid-template-columns: repeat(6, 1fr); }
 
   .hero {
     grid-template-columns: 1.1fr 0.9fr;
@@ -1413,5 +1873,10 @@ table {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* launch countdown skips straight to "fight!" instead of waiting */
+  .countdown span {
+    animation-delay: 0s !important;
   }
 }

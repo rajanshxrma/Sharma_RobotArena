@@ -78,6 +78,37 @@
   to { transform: rotate(360deg); }
 }
 
+/* control panel: stat row lights up when a power-up turns on */
+@keyframes power-flash {
+  from { color: var(--yellow); text-shadow: 0 0 10px var(--yellow); }
+}
+
+/* control panel: reticle snaps onto the bot */
+@keyframes lock-on {
+  from { opacity: 0; transform: scale(1.6) rotate(45deg); }
+  to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* control panel: shield bubble humming */
+@keyframes shield-hum {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46, 230, 246, 0.35); }
+  50% { box-shadow: 0 0 26px 4px rgba(46, 230, 246, 0.35); }
+}
+
+/* launch countdown: each number zooms in, holds, then fades */
+@keyframes count-step {
+  0% { opacity: 0; transform: scale(1.8); }
+  25%, 75% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.7); }
+}
+
+/* "fight!" zooms in and stays */
+@keyframes count-go {
+  0% { opacity: 0; transform: scale(2.2); }
+  60% { opacity: 1; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 /* stagger the roster cards a bit */
 .roster-grid .bot:nth-child(2) { animation-delay: 0.08s; }
 .roster-grid .bot:nth-child(3) { animation-delay: 0.16s; }
