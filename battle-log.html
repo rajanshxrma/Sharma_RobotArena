@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IRONCLASH battle log - recent matches, alerts and round by round replays.">
+  <title>Battle Log | IRONCLASH</title>
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="IRONCLASH home">
+        <img class="brand-mark" src="images/logo.svg" alt="">
+        IRON<span>CLASH</span>
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label"><span class="burger"></span> Menu</label>
+      <nav class="main-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="roster.html">Arena Roster</a></li>
+          <li><a href="battle-log.html" aria-current="page">Battle Log</a></li>
+          <li><a href="control-panel.html">Control Panel</a></li>
+          <li><a href="team.html">Team</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="page-head">
+      <span class="eyebrow">Last 24 hours</span>
+      <h1>Battle Log</h1>
+      <p>What happened in the arena recently. The colored tags show big moments: <strong class="text-accent">KO</strong> means a knockout, <strong>CRIT</strong> is a critical hit, <strong>OVERHEAT</strong> means a bot pushed too hard. Click <em>View replay</em> on a match to see it round by round.</p>
+    </section>
+
+    <div class="summary" aria-label="Season summary">
+      <span class="chip chip-green">38 matches</span>
+      <span class="chip chip-orange">14 knockouts</span>
+      <span class="chip chip-red">5 overheats</span>
+      <span class="chip chip-cyan">avg 3.2 rounds</span>
+    </div>
+
+    <div class="grid grid-2">
+      <section aria-labelledby="timeline-title">
+        <h2 id="timeline-title">Match timeline</h2>
+        <ol class="timeline">
+          <li>
+            <article class="card log-entry">
+              <header>
+                <h3 class="mb-0">Blink vs Patch</h3>
+                <time datetime="2026-10-18T13:40">1:40 PM</time>
+              </header>
+              <div class="chips">
+                <span class="chip chip-orange">KO</span>
+                <span class="chip chip-yellow">CRIT x2</span>
+              </div>
+              <p class="text-muted">Blink dodged everything for two rounds and then finished Patch with a double crit in round 3.</p>
+              <a class="btn btn-ghost" href="#replay-1">View replay</a>
+            </article>
+          </li>
+          <li>
+            <article class="card log-entry">
+              <header>
+                <h3 class="mb-0">Crusher vs Medic-Bay</h3>
+                <time datetime="2026-10-18T11:15">11:15 AM</time>
+              </header>
+              <div class="chips">
+                <span class="chip chip-red">OVERHEAT</span>
+                <span class="chip chip-green">WIN ON POINTS</span>
+              </div>
+              <p class="text-muted">Crusher went full overdrive and overheated. Medic-Bay kept healing and won on points.</p>
+              <a class="btn btn-ghost" href="#replay-2">View replay</a>
+            </article>
+          </li>
+          <li>
+            <article class="card log-entry">
+              <header>
+                <h3 class="mb-0">Titan-07 vs Volt Runner</h3>
+                <time datetime="2026-10-18T09:05">9:05 AM</time>
+              </header>
+              <div class="chips">
+                <span class="chip chip-cyan">DRAW</span>
+              </div>
+              <p class="text-muted">Volt was too fast to hit, Titan was too tough to break. Rematch is tonight's main event.</p>
+              <a class="btn btn-ghost" href="#replay-3">View replay</a>
+            </article>
+          </li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="results-title">
+        <h2 id="results-title">Recent results</h2>
+        <div class="panel table-wrap">
+          <table class="results-table">
+            <caption class="sr-only">Last six match results</caption>
+            <thead>
+              <tr>
+                <th scope="col">Match</th>
+                <th scope="col">Winner</th>
+                <th scope="col">Rounds</th>
+                <th scope="col">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Blink vs Patch</td><td>Blink</td><td>3</td><td>4:12</td></tr>
+              <tr><td>Crusher vs Medic-Bay</td><td>Medic-Bay</td><td>5</td><td>7:48</td></tr>
+              <tr><td>Titan-07 vs Volt Runner</td><td>Draw</td><td>5</td><td>8:00</td></tr>
+              <tr><td>Volt Runner vs Patch</td><td>Volt Runner</td><td>2</td><td>2:51</td></tr>
+              <tr><td>Blink vs Crusher</td><td>Blink</td><td>4</td><td>5:30</td></tr>
+              <tr><td>Medic-Bay vs Titan-07</td><td>Titan-07</td><td>3</td><td>4:05</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="hint mt-4">
+          <span aria-hidden="true">&#9432;</span>
+          <p><strong>Note:</strong> replays open in an overlay using the CSS <code>:target</code> selector. Press the &times; button (or go back in your browser) to close it.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- replay overlays: they show when the url ends in #replay-1, #replay-2 etc -->
+  <div class="overlay" id="replay-1" role="dialog" aria-labelledby="r1-title">
+    <div class="overlay-box panel hud-corners">
+      <a class="overlay-close" href="#timeline-title" aria-label="Close replay">&times; close</a>
+      <span class="eyebrow">Replay // 1:40 PM</span>
+      <h2 id="r1-title">Blink vs Patch</h2>
+      <div class="round">
+        <h4>Round 1</h4>
+        <div class="stat"><span>BLINK</span><span class="bar"><span class="fill fill-green" style="--val:100%"></span></span><span>100</span></div>
+        <div class="stat"><span>PATCH</span><span class="bar"><span class="fill fill-green" style="--val:86%"></span></span><span>86</span></div>
+      </div>
+      <div class="round">
+        <h4>Round 2</h4>
+        <div class="stat"><span>BLINK</span><span class="bar"><span class="fill fill-green" style="--val:91%"></span></span><span>91</span></div>
+        <div class="stat"><span>PATCH</span><span class="bar"><span class="fill" style="--val:54%"></span></span><span>54</span></div>
+      </div>
+      <div class="round">
+        <h4>Round 3 <span class="chip chip-orange">KO</span></h4>
+        <div class="stat"><span>BLINK</span><span class="bar"><span class="fill fill-green" style="--val:64%"></span></span><span>64</span></div>
+        <div class="stat"><span>PATCH</span><span class="bar"><span class="fill fill-red" style="--val:0%"></span></span><span>0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="replay-2" role="dialog" aria-labelledby="r2-title">
+    <div class="overlay-box panel hud-corners">
+      <a class="overlay-close" href="#timeline-title" aria-label="Close replay">&times; close</a>
+      <span class="eyebrow">Replay // 11:15 AM</span>
+      <h2 id="r2-title">Crusher vs Medic-Bay</h2>
+      <div class="round">
+        <h4>Round 1</h4>
+        <div class="stat"><span>CRUSHER</span><span class="bar"><span class="fill fill-green" style="--val:95%"></span></span><span>95</span></div>
+        <div class="stat"><span>MEDIC</span><span class="bar"><span class="fill" style="--val:62%"></span></span><span>62</span></div>
+      </div>
+      <div class="round">
+        <h4>Round 3 <span class="chip chip-red">OVERHEAT</span></h4>
+        <div class="stat"><span>CRUSHER</span><span class="bar"><span class="fill" style="--val:48%"></span></span><span>48</span></div>
+        <div class="stat"><span>MEDIC</span><span class="bar"><span class="fill fill-green" style="--val:70%"></span></span><span>70</span></div>
+      </div>
+      <div class="round">
+        <h4>Round 5 <span class="chip chip-green">Points</span></h4>
+        <div class="stat"><span>CRUSHER</span><span class="bar"><span class="fill fill-red" style="--val:22%"></span></span><span>22</span></div>
+        <div class="stat"><span>MEDIC</span><span class="bar"><span class="fill fill-green" style="--val:58%"></span></span><span>58</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="replay-3" role="dialog" aria-labelledby="r3-title">
+    <div class="overlay-box panel hud-corners">
+      <a class="overlay-close" href="#timeline-title" aria-label="Close replay">&times; close</a>
+      <span class="eyebrow">Replay // 9:05 AM</span>
+      <h2 id="r3-title">Titan-07 vs Volt Runner</h2>
+      <div class="round">
+        <h4>Round 1</h4>
+        <div class="stat"><span>TITAN</span><span class="bar"><span class="fill fill-green" style="--val:99%"></span></span><span>99</span></div>
+        <div class="stat"><span>VOLT</span><span class="bar"><span class="fill fill-green" style="--val:90%"></span></span><span>90</span></div>
+      </div>
+      <div class="round">
+        <h4>Round 5 <span class="chip chip-cyan">Draw</span></h4>
+        <div class="stat"><span>TITAN</span><span class="bar"><span class="fill fill-green" style="--val:71%"></span></span><span>71</span></div>
+        <div class="stat"><span>VOLT</span><span class="bar"><span class="fill fill-green" style="--val:71%"></span></span><span>71</span></div>
+      </div>
+      <p class="text-muted mt-3 mb-0">Judges couldn't split them. Rematch is the featured match on the <a href="index.html">home page</a>.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="mb-0">IRONCLASH &copy; 2026 &middot; CSC 4370 Project 1 &middot; HTML + CSS only</p>
+      <p class="mb-0"><a href="team.html">Team</a> &middot; <a href="#main">Back to top</a></p>
+    </div>
+  </footer>
+</body>
+</html>

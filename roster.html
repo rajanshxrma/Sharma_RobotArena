@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IRONCLASH arena roster - every robot in the league with stats and status.">
+  <title>Arena Roster | IRONCLASH</title>
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="IRONCLASH home">
+        <img class="brand-mark" src="images/logo.svg" alt="">
+        IRON<span>CLASH</span>
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label"><span class="burger"></span> Menu</label>
+      <nav class="main-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="roster.html" aria-current="page">Arena Roster</a></li>
+          <li><a href="battle-log.html">Battle Log</a></li>
+          <li><a href="control-panel.html">Control Panel</a></li>
+          <li><a href="team.html">Team</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="page-head">
+      <span class="eyebrow">Season 3 // 6 bots shown</span>
+      <h1>Arena Roster</h1>
+      <p>Every robot fighting this season. Bars show hull (health), attack and speed out of 100. A green dot means the bot is ready to fight, yellow means it's being repaired.</p>
+    </section>
+
+    <section aria-labelledby="roster-title">
+      <h2 id="roster-title" class="sr-only">Robots</h2>
+
+      <!-- filter radios have to be siblings of .filter-bar and .roster-grid for the ~ selector to work -->
+      <input class="filter-input" type="radio" name="filter" id="f-all" checked>
+      <input class="filter-input" type="radio" name="filter" id="f-tank">
+      <input class="filter-input" type="radio" name="filter" id="f-speed">
+      <input class="filter-input" type="radio" name="filter" id="f-support">
+
+      <div class="filter-bar" role="group" aria-label="Filter robots by type">
+        <label for="f-all">All bots</label>
+        <label for="f-tank">Tank</label>
+        <label for="f-speed">Speed</label>
+        <label for="f-support">Support</label>
+      </div>
+
+      <div class="roster-grid">
+        <article class="card bot is-tank">
+          <div class="bot-top">
+            <span class="chip chip-orange">Tank</span>
+            <span class="status status-online">Online</span>
+          </div>
+          <div class="bot-img"><img src="images/titan.svg" alt="Titan-07, orange robot with tank treads"></div>
+          <div>
+            <h3>Titan-07</h3>
+            <p class="role">Heavy armor, slow but almost impossible to knock out.</p>
+          </div>
+          <div>
+            <div class="stat"><span>HULL</span><span class="bar"><span class="fill fill-green" style="--val:98%"></span></span><span>98</span></div>
+            <div class="stat"><span>ATK</span><span class="bar"><span class="fill" style="--val:84%"></span></span><span>84</span></div>
+            <div class="stat"><span>SPD</span><span class="bar"><span class="fill fill-cyan" style="--val:35%"></span></span><span>35</span></div>
+          </div>
+        </article>
+
+        <article class="card bot is-speed">
+          <div class="bot-top">
+            <span class="chip chip-cyan">Speed</span>
+            <span class="status status-online">Online</span>
+          </div>
+          <div class="bot-img"><img src="images/volt.svg" alt="Volt Runner, slim cyan robot"></div>
+          <div>
+            <h3>Volt Runner</h3>
+            <p class="role">Hits and runs. Wins by dodging, not by tanking.</p>
+          </div>
+          <div>
+            <div class="stat"><span>HULL</span><span class="bar"><span class="fill fill-green" style="--val:71%"></span></span><span>71</span></div>
+            <div class="stat"><span>ATK</span><span class="bar"><span class="fill" style="--val:66%"></span></span><span>66</span></div>
+            <div class="stat"><span>SPD</span><span class="bar"><span class="fill fill-cyan" style="--val:95%"></span></span><span>95</span></div>
+          </div>
+        </article>
+
+        <article class="card bot is-support">
+          <div class="bot-top">
+            <span class="chip chip-green">Support</span>
+            <span class="status status-online">Online</span>
+          </div>
+          <div class="bot-img"><img src="images/medic.svg" alt="Medic-Bay, round green robot"></div>
+          <div>
+            <h3>Medic-Bay</h3>
+            <p class="role">Drops repair drones for teammates in tag matches.</p>
+          </div>
+          <div>
+            <div class="stat"><span>HULL</span><span class="bar"><span class="fill fill-green" style="--val:80%"></span></span><span>80</span></div>
+            <div class="stat"><span>ATK</span><span class="bar"><span class="fill" style="--val:40%"></span></span><span>40</span></div>
+            <div class="stat"><span>SPD</span><span class="bar"><span class="fill fill-cyan" style="--val:62%"></span></span><span>62</span></div>
+          </div>
+        </article>
+
+        <article class="card bot is-tank">
+          <div class="bot-top">
+            <span class="chip chip-orange">Tank</span>
+            <span class="status status-repair">In repair</span>
+          </div>
+          <div class="bot-img"><img src="images/crusher.svg" alt="Crusher, red tank robot"></div>
+          <div>
+            <h3>Crusher</h3>
+            <p class="role">Biggest hits in the league. Shield got wrecked last match.</p>
+          </div>
+          <div>
+            <div class="stat"><span>HULL</span><span class="bar"><span class="fill fill-red" style="--val:22%"></span></span><span>22</span></div>
+            <div class="stat"><span>ATK</span><span class="bar"><span class="fill" style="--val:97%"></span></span><span>97</span></div>
+            <div class="stat"><span>SPD</span><span class="bar"><span class="fill fill-cyan" style="--val:28%"></span></span><span>28</span></div>
+          </div>
+        </article>
+
+        <article class="card bot is-speed">
+          <div class="bot-top">
+            <span class="chip chip-yellow">Speed</span>
+            <span class="status status-online">Online</span>
+          </div>
+          <div class="bot-img"><img src="images/blink.svg" alt="Blink, yellow robot with a triangle head"></div>
+          <div>
+            <h3>Blink</h3>
+            <p class="role">Current champ. 9 wins in a row this season.</p>
+          </div>
+          <div>
+            <div class="stat"><span>HULL</span><span class="bar"><span class="fill fill-green" style="--val:64%"></span></span><span>64</span></div>
+            <div class="stat"><span>ATK</span><span class="bar"><span class="fill" style="--val:78%"></span></span><span>78</span></div>
+            <div class="stat"><span>SPD</span><span class="bar"><span class="fill fill-cyan" style="--val:99%"></span></span><span>99</span></div>
+          </div>
+        </article>
+
+        <article class="card bot is-support">
+          <div class="bot-top">
+            <span class="chip chip-green">Support</span>
+            <span class="status status-offline">Offline</span>
+          </div>
+          <div class="bot-img"><img src="images/patch.svg" alt="Patch, purple robot"></div>
+          <div>
+            <h3>Patch</h3>
+            <p class="role">Jams enemy sensors. Out after losing to Blink.</p>
+          </div>
+          <div>
+            <div class="stat"><span>HULL</span><span class="bar"><span class="fill fill-red" style="--val:12%"></span></span><span>12</span></div>
+            <div class="stat"><span>ATK</span><span class="bar"><span class="fill" style="--val:52%"></span></span><span>52</span></div>
+            <div class="stat"><span>SPD</span><span class="bar"><span class="fill fill-cyan" style="--val:70%"></span></span><span>70</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="hint">
+        <span aria-hidden="true">&#9432;</span>
+        <p><strong>Tip:</strong> the filters above work without any JavaScript. Each button is a hidden radio input, and CSS hides the cards that don't match. Found a bot you like? Set it up in the <a href="control-panel.html">Control Panel</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="mb-0">IRONCLASH &copy; 2026 &middot; CSC 4370 Project 1 &middot; HTML + CSS only</p>
+      <p class="mb-0"><a href="team.html">Team</a> &middot; <a href="#main">Back to top</a></p>
+    </div>
+  </footer>
+</body>
+</html>
