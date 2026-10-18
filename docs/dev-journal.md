@@ -1,56 +1,65 @@
-# Development Journal: IRONCLASH
+# dev journal - IRONCLASH
 
-Rajan Sharma · CSC 4370 · Project 1 · Track E Robot Arena Dashboard + Combat HUD pack
+Rajan Sharma, CSC 4370 Project 1. Each entry starts with my stand-up (done / now / blockers), then what I decided or ran into.
 
-Each entry starts with the three stand-up questions (done / now / blockers) and then the decisions and problems from that block.
+## sun 18 oct, 3:30 pm - planning + base styles
 
----
+done: read through the project page, showcase, rubric and Q&A guide
+now: pick a track, set up the repo, build the home page
+blockers: none
 
-## Sun 18 Oct 2026, 3:30 PM: planning + base styles
+- Went with Track E, Robot Arena Dashboard. It has the most room for animation that actually means something (power-ups, alerts, scans). The Combat HUD pack fits it best, since status bars, alert chips and overlays are basically the whole look.
+- Picked a dark "arena at night" hud style. Orange is for actions and warnings, cyan is for hud lines and data. I thought about a light theme but put it in the backlog, because the glow and scan line effects need a dark background to show up.
+- Put every color, font, spacing step and timing in `:root` variables before building anything.
+- Three fonts: Chakra Petch for headings, Inter for text, JetBrains Mono for the numbers and hud tags.
+- `style.css` goes in a fixed order (variables > base > layout > components > pages > utilities > media queries). All the keyframes go in `animations.css` so the main file stays readable.
+- ticker: with one copy of the alerts there'd be a gap before it loops, so I doubled the items and slide the track by -50%. The second copy is `aria-hidden` so screen readers don't read it twice.
+- mobile menu with no js: a checkbox and a label (`.nav-toggle:checked ~ .main-nav`). The checkbox is hidden but still focusable, so the menu works with the keyboard.
 
-**Done:** read the project brief, showcase, rubric and Q&A guide.
-**Now:** pick a track, set up the repo, build the home page.
-**Blockers:** none.
+## sun 18 oct, 3:40 pm - roster + battle log
 
-- Picked **Track E, Robot Arena Dashboard**. It has the most room for motion that actually means something (power-ups, alerts, scans). The **Combat HUD pack** is the natural pair: status bars, alert chips and overlays are the whole look of the site.
-- Design direction: a dark "arena at night" HUD. Orange (`--accent`) is for actions and warnings, and cyan (`--cyan`) is for HUD lines and data. I considered a light theme and put it in the backlog instead, because the glow and scan-line effects depend on a dark background for contrast.
-- Every color, font, spacing step, radius and timing value is a variable in `:root`, so the pages can't drift apart.
-- Three font roles: Chakra Petch for headings (techy but readable), Inter for body text, JetBrains Mono for numbers and HUD tags.
-- `style.css` has one fixed section order (variables > base > layout > components > pages > utilities > media queries). All `@keyframes` live in `animations.css` so the main file stays readable.
-- **Live ticker:** a scrolling ticker with only one copy of the text would leave a gap before it loops. I doubled the items and animate the track by `-50%`, so the loop is seamless. The duplicate copy is `aria-hidden="true"` so screen readers don't read every alert twice.
-- **Mobile menu without JS:** a checkbox plus a label (`.nav-toggle:checked ~ .main-nav`). The checkbox is visually hidden but still focusable, so the menu works from the keyboard.
+done: home page
+now: roster with filters, then the battle log
+blockers: how to filter with no js
 
-## Sun 18 Oct 2026, 3:40 PM: Arena Roster + Battle Log
+- roster filter: radio buttons + the `~` selector. The catch is that `~` only reaches later siblings, so the radios have to come before `.filter-bar` and `.roster-grid` at the same level. I left a comment in the html because that's easy to break by moving markup around.
+- Each stat bar takes its value from one variable (`style="--val:72%"`), so one `.fill` rule styles every bar.
+- Status is a dot plus a word (Online / Repair / Offline), not just a color.
+- battle log: the timeline is an ordered list, then a results table and replay popups that open with `:target`. Each popup has a close link back to the page.
 
-**Done:** home page committed.
-**Now:** roster with filters, then the battle log.
-**Blockers:** filtering with no JavaScript.
+## sun 18 oct, 6:40 pm - control panel
 
-- **The filter:** radio buttons plus the `~` sibling selector. The catch is that `~` only reaches *later siblings*, so the radios can't sit inside the filter bar. They have to come before `.filter-bar` and `.roster-grid` at the same level. I left an HTML comment there because it's an easy thing to break when moving markup around.
-- Stat bars use one custom property each (`style="--val:72%"`), so a single `.fill` rule styles every bar and only the number changes.
-- Status uses a dot *and* a word (Online / Repair / Offline), so the meaning doesn't depend on color alone.
-- Battle log: a match timeline (ordered list), a results table, and replay overlays that open with `:target` (the link's `#replay-1` becomes the URL hash). Each overlay has a close link back to the page.
+done: roster and battle log
+now: control panel, the most interactive page
+blockers: getting the stats to react to the switches without js
 
-## Sun 18 Oct 2026, 6:40 PM: Control Panel
+- My first version had a hard coded width for each power-up (like `width: 96%`). That broke as soon as two power-ups were on at the same time, because the rules fought each other.
+- Fixed it by making each switch only set a flag: `.hud:has(#pu-overdrive:checked) { --od: 1; }`. Each bar then works out `min(100, max(0, base + bonus))`, the width is `calc(var(--now) * 1%)`, and a transition slides it. Now any mix of power-ups works.
+- The numbers next to the bars use `counter-reset: stat var(--now)` and `content: counter(stat)`, so the number always matches the bar.
+- launch countdown: a `:target` popup where 3, 2, 1 and FIGHT! are stacked in one grid cell with staggered delays. The animation only gets added while the popup is open, so it plays again every launch.
+- bug: with reduced motion turned on, the countdown sat on an empty box for 3 seconds before FIGHT! showed up. The reduced motion rule shortens the animation durations but not the delays. Fixed it with `.countdown span { animation-delay: 0s !important; }` in the reduced motion block.
+- Alert chips (OK / WARN / CRIT / LOCK) always have an icon and a word, and they sit in an `aria-live` area.
 
-**Done:** roster and battle log committed.
-**Now:** the control panel, the most interactive page.
-**Blockers:** making the stats react to the switches without JavaScript.
+## sun 18 oct, 7:20 pm - team page
 
-- **Key decision:** each power-up switch sets a 0/1 flag on the HUD with `:has()`, e.g. `.hud:has(#pu-overdrive:checked) { --od: 1; }`. Each bar computes its value as `min(100, max(0, base + bonus))`. The width is `calc(var(--now) * 1%)`, and a width transition makes it slide. One formula drives every bar, so I didn't need a separate rule for each combination of switches.
-- **Live numbers:** `counter-reset: stat var(--now)` with `content: counter(stat)` prints the bar value as text, so the number and the bar always agree.
-- **Considered and rejected:** a separate hard-coded rule for each power-up (the first version did this, e.g. `width: 96%`). It broke as soon as two power-ups were on together. The variable formula fixed that.
-- **Launch countdown:** a `:target` overlay. 3-2-1-FIGHT! are four spans stacked in one grid cell with staggered `--delay` values. The animation is only applied while the overlay is open, so it replays on every launch.
-- **Bug found + fixed:** with reduced motion turned on, the global rule shortens animation *durations* but not *delays*, so those users stared at an empty box for 3 seconds before FIGHT! appeared. I added `.countdown span { animation-delay: 0s !important; }` inside the reduced-motion block.
-- Alert chips (OK / WARN / CRIT / LOCK) always have an icon and a word, not just a color. They sit in an `aria-live` region.
+done: control panel
+now: team intro page
+blockers: none
 
-## Sun 18 Oct 2026, 7:20 PM: Team page
+- It's a solo project, so I split the work into four roles (designer, layout, animation, QA). That kept my kanban cards small.
+- Time tracking is by phase, the way the course asks for it.
+- On phones the time table scrolls sideways inside its box. You can't scroll a box from the keyboard unless it can be focused, so I gave it `tabindex="0"`, `role="region"` and a label.
+- Renamed the AI pilot cards on the control panel to "step 05" so it's clear the arena cam is my one bonus feature.
 
-**Done:** control panel committed.
-**Now:** team introduction page.
-**Blockers:** none.
+## sun 18 oct, 7:30 pm - proposal, readme, arena cam, qa
 
-- Solo project, so I split the work into four roles (designer, layout, animation, QA). That kept the Kanban cards small and makes it clear what each part of the work covered.
-- Time tracking is by phase (Proposal, Layout, Motion, Polish, Presentation), as the course asks.
-- **Accessibility fix:** the time table sits in a horizontally scrolling `.table-wrap` on phones. A scroll box you can't focus can't be scrolled from the keyboard, so I gave it `tabindex="0"`, `role="region"` and a label.
-- Relabelled the AI pilot cards on the control panel as "Step 05" of the setup flow, so the one declared bonus feature (Arena Cam) is clear.
+done: team page, kanban, journal
+now: proposal with wireframes, readme, the arena cam bonus, then a full QA pass
+blockers: none
+
+- Wrote the proposal doc with wireframes for all five pages plus the mobile home layout.
+- arena cam: three radio buttons (live feed / scan / results) and `:has()` on the camera section. Each box sits inside the same wrapper as its robot and uses percentage positions, so it stays on the bot at any screen size. I kept one low confidence detection (0.41) with a dashed box on purpose, so the UI shows that detection isn't always sure.
+- The scan beam's bright edge was off the frame half the time at first. I changed the sweep to go from -100% to 5% so it stays visible.
+- QA found the battle log was 473px wide on a 375px phone. Grid items have `min-width: auto` by default, so the results table's no-wrap cells stretched the column. Fixed it with `.grid > * { min-width: 0; }`, and now the table scrolls inside its own box.
+- QA also found the replay popups jumping from h2 to h4, so I changed the round titles to h3.
+- Checked contrast on all the colors. The lowest is red on a panel at 5.4:1, which still passes AA.

@@ -145,6 +145,11 @@ table {
   gap: var(--space-4);
 }
 
+/* lets grid columns shrink so wide tables scroll instead of stretching the page */
+.grid > * {
+  min-width: 0;
+}
+
 /* mobile first: everything stacks, columns get added in media queries */
 .grid-2,
 .grid-3,
@@ -978,7 +983,7 @@ table {
   margin-top: var(--space-3);
 }
 
-.round h4 {
+.round h3 {
   font-size: var(--fs-sm);
   color: var(--cyan);
   font-family: var(--font-mono);
