@@ -1,0 +1,86 @@
+/* =========================================
+   animations.css
+   all the @keyframes live here so style.css stays readable
+   ========================================= */
+
+/* status dot ring - online bots */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(62, 224, 160, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(62, 224, 160, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(62, 224, 160, 0); }
+}
+
+/* on/off blink - repair status + radar blips */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* stat bars fill in from the left on page load */
+@keyframes bar-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* robot floating in the hero */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(1.5deg); }
+}
+
+/* hud scan line moving top to bottom */
+@keyframes scan {
+  from { transform: translateY(-60px); }
+  to { transform: translateY(480px); }
+}
+
+/* alert ticker scroll - track is duplicated so it loops clean */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* small glitch jump on the hero word */
+@keyframes glitch {
+  0%, 92%, 100% { transform: none; text-shadow: none; }
+  93% { transform: translate(-2px, 1px); text-shadow: 2px 0 var(--cyan), -2px 0 var(--red); }
+  95% { transform: translate(2px, -1px); text-shadow: -2px 0 var(--cyan), 2px 0 var(--red); }
+  97% { transform: translate(-1px, 0); text-shadow: none; }
+}
+
+/* VS text breathing */
+@keyframes pulse-text {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.75; }
+}
+
+/* cards sliding up when the page loads */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* alert chips popping in when a power-up turns on */
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.6); }
+  70% { transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* overheating bar flicker when overdrive is on */
+@keyframes heat {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.6) saturate(1.4); }
+}
+
+/* radar sweep */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* stagger the roster cards a bit */
+.roster-grid .bot:nth-child(2) { animation-delay: 0.08s; }
+.roster-grid .bot:nth-child(3) { animation-delay: 0.16s; }
+.roster-grid .bot:nth-child(4) { animation-delay: 0.24s; }
+.roster-grid .bot:nth-child(5) { animation-delay: 0.32s; }
+.roster-grid .bot:nth-child(6) { animation-delay: 0.4s; }

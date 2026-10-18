@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IRONCLASH - a robot arena dashboard. See the bots, check the battle log and tune your robot in the control panel.">
+  <title>IRONCLASH | Robot Arena Dashboard</title>
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="IRONCLASH home">
+        <img class="brand-mark" src="images/logo.svg" alt="">
+        IRON<span>CLASH</span>
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label"><span class="burger"></span> Menu</label>
+      <nav class="main-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="roster.html">Arena Roster</a></li>
+          <li><a href="battle-log.html">Battle Log</a></li>
+          <li><a href="control-panel.html">Control Panel</a></li>
+          <li><a href="team.html">Team</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- live alerts ticker (content is doubled so the loop has no gap) -->
+  <div class="ticker" aria-label="Live arena alerts">
+    <div class="ticker-track">
+      <span><strong>LIVE</strong> Titan-07 vs Volt Runner starts in 04:12</span>
+      <span><strong>ALERT</strong> Crusher shield at 22% - repair crew sent</span>
+      <span><strong>KO</strong> Blink knocked out Patch in round 3</span>
+      <span><strong>POWER-UP</strong> Medic-Bay picked up a repair drone</span>
+      <span><strong>ARENA</strong> Floor temp 41&deg;C - lava vents active</span>
+      <span aria-hidden="true"><strong>LIVE</strong> Titan-07 vs Volt Runner starts in 04:12</span>
+      <span aria-hidden="true"><strong>ALERT</strong> Crusher shield at 22% - repair crew sent</span>
+      <span aria-hidden="true"><strong>KO</strong> Blink knocked out Patch in round 3</span>
+      <span aria-hidden="true"><strong>POWER-UP</strong> Medic-Bay picked up a repair drone</span>
+      <span aria-hidden="true"><strong>ARENA</strong> Floor temp 41&deg;C - lava vents active</span>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="container hero" aria-labelledby="hero-title">
+      <div>
+        <span class="eyebrow">Season 3 // Arena Online</span>
+        <h1 id="hero-title">Build it. Power it. <span class="glitch">Clash it.</span></h1>
+        <p class="hero-lead">IRONCLASH is a dashboard for a robot fighting league. Check out the bots, see who won last night, and set up your own robot before the next match.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="roster.html">Meet the bots &rarr;</a>
+          <a class="btn btn-ghost" href="control-panel.html">Open control panel</a>
+        </div>
+        <div class="hint">
+          <span aria-hidden="true">&#9432;</span>
+          <p><strong>New here?</strong> Start with the <a href="roster.html">Arena Roster</a> and filter bots by type. Then go to the <a href="control-panel.html">Control Panel</a> and flip some power-up switches to see the stats change.</p>
+        </div>
+      </div>
+
+      <div class="hero-visual hud-corners" aria-hidden="true">
+        <span class="scanline"></span>
+        <span class="hud-tag t1">TARGET: TITAN-07</span>
+        <span class="hud-tag t2">HULL 98% // READY</span>
+        <img src="images/titan.svg" alt="">
+      </div>
+    </section>
+
+    <section class="container section" aria-labelledby="stats-title">
+      <h2 id="stats-title" class="sr-only">Arena stats today</h2>
+      <div class="grid grid-4">
+        <article class="card stat-card">
+          <span class="eyebrow">Bots online</span>
+          <span class="big">12</span>
+          <span class="label">of 16 registered</span>
+        </article>
+        <article class="card stat-card">
+          <span class="eyebrow">Matches today</span>
+          <span class="big">38</span>
+          <span class="label">6 still in queue</span>
+        </article>
+        <article class="card stat-card">
+          <span class="eyebrow">Avg power</span>
+          <span class="big">76%</span>
+          <div class="bar mt-3"><span class="fill fill-cyan" style="--val:76%"></span></div>
+        </article>
+        <article class="card stat-card">
+          <span class="eyebrow">Top bot</span>
+          <span class="big">Blink</span>
+          <span class="label">9 win streak</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="container section" aria-labelledby="match-title">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Next match</span>
+          <h2 id="match-title" class="mb-0">Featured matchup</h2>
+        </div>
+        <p>The main event tonight. Heavy armor against pure speed.</p>
+      </div>
+
+      <div class="panel hud-corners matchup">
+        <div class="fighter">
+          <img src="images/titan.svg" alt="Titan-07, an orange tank robot">
+          <div class="fighter-info">
+            <h3 class="mb-0">Titan-07</h3>
+            <span class="status status-online">Online</span>
+            <div class="stat mt-3"><span>HULL</span><span class="bar"><span class="fill fill-green" style="--val:98%"></span></span><span>98</span></div>
+            <div class="stat"><span>ATK</span><span class="bar"><span class="fill" style="--val:84%"></span></span><span>84</span></div>
+          </div>
+        </div>
+
+        <span class="versus" aria-hidden="true">VS</span>
+
+        <div class="fighter">
+          <img src="images/volt.svg" alt="Volt Runner, a cyan speed robot">
+          <div class="fighter-info">
+            <h3 class="mb-0">Volt Runner</h3>
+            <span class="status status-online">Online</span>
+            <div class="stat mt-3"><span>HULL</span><span class="bar"><span class="fill fill-green" style="--val:71%"></span></span><span>71</span></div>
+            <div class="stat"><span>ATK</span><span class="bar"><span class="fill" style="--val:66%"></span></span><span>66</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" aria-labelledby="how-title">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">How it works</span>
+          <h2 id="how-title" class="mb-0">Three steps to your first clash</h2>
+        </div>
+      </div>
+      <ol class="steps grid grid-3">
+        <li class="card">
+          <h3>Pick a bot</h3>
+          <p>Go to the <a href="roster.html">roster</a>. Use the Tank / Speed / Support filters to find the robot that fits how you like to play.</p>
+        </li>
+        <li class="card">
+          <h3>Tune it up</h3>
+          <p>In the <a href="control-panel.html">control panel</a> you can switch power-ups on and off and pick an AI pilot model.</p>
+        </li>
+        <li class="card">
+          <h3>Check the log</h3>
+          <p>After a match, look at the <a href="battle-log.html">battle log</a> and open a replay to see what happened each round.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="container section" aria-labelledby="ai-title">
+      <div class="panel hud-corners">
+        <span class="eyebrow">New this season</span>
+        <h2 id="ai-title">Choose your AI pilot</h2>
+        <p class="text-muted">Every bot can be driven by a different AI pilot model. Some are fast, some are smarter, some are cheaper to run. Compare them side by side before you lock one in.</p>
+        <a class="btn btn-ghost" href="control-panel.html#ai-pilot">Compare pilot models &rarr;</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="mb-0">IRONCLASH &copy; 2026 &middot; CSC 4370 Project 1 &middot; HTML + CSS only</p>
+      <p class="mb-0"><a href="team.html">Team</a> &middot; <a href="#main">Back to top</a></p>
+    </div>
+  </footer>
+</body>
+</html>
