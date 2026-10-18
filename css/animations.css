@@ -115,3 +115,30 @@
 .roster-grid .bot:nth-child(4) { animation-delay: 0.24s; }
 .roster-grid .bot:nth-child(5) { animation-delay: 0.32s; }
 .roster-grid .bot:nth-child(6) { animation-delay: 0.4s; }
+
+/* =========================================
+   bonus: arena cam (battle log page)
+   it also reuses blink, bar-grow, fade-up, pop-in and pulse from above
+   ========================================= */
+
+/* arena cam: beam slides down the frame (in % so it fits any frame size) */
+@keyframes cam-sweep {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(5%); }
+}
+
+/* arena cam: grid lines flicker while the frame is being "analyzed" */
+@keyframes cam-flicker {
+  0%, 100% { opacity: 0.5; }
+  20% { opacity: 1; }
+  40% { opacity: 0.25; }
+  60% { opacity: 0.9; }
+  80% { opacity: 0.4; }
+}
+
+/* arena cam: a bounding box snaps down onto a detected bot */
+@keyframes box-lock {
+  0% { opacity: 0; transform: scale(1.35); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); }
+}

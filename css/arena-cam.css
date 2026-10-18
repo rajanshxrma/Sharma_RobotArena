@@ -1,0 +1,550 @@
+/* =========================================
+   arena-cam.css
+   bonus feature: arena cam (computer vision overlay mockup)
+   battle log page only. three modes picked with radios: live feed > scan > results
+   its keyframes are at the bottom of animations.css
+   ========================================= */
+
+/* ---------- 1. section + mode buttons ---------- */
+.cam {
+  margin-top: var(--space-5);
+  scroll-margin-top: 6rem;
+}
+
+/* each class gets one color, boxes and list rows both read --c */
+.det-tank { --c: var(--accent); }
+.det-speed { --c: var(--cyan); }
+.det-support { --c: var(--green); }
+.det-unsure { --c: var(--yellow); }
+
+.cam-modes {
+  margin-top: var(--space-4);
+}
+
+.cam-mode-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+/* the radio is hidden inside each label, the label looks like a hud button */
+.cam-mode {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  font-family: var(--font-head);
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--speed), background var(--speed);
+}
+
+.cam-mode:hover {
+  border-color: var(--cyan);
+}
+
+.cam-step {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.cam-mode:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-2));
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* the step number turns orange too, so it isn't only the border that changes */
+.cam-mode:has(input:checked) .cam-step {
+  color: var(--accent);
+}
+
+.cam-mode:has(input:checked) .cam-step::before {
+  content: "\25B6  ";
+}
+
+.cam-mode:has(input:focus-visible),
+.cf:has(input:focus-visible) {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+/* ---------- 2. layout: frame + side panel ---------- */
+.cam-body {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.cam-view {
+  margin: 0;
+  min-width: 0;
+}
+
+.cam-view figcaption {
+  margin-top: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.cam-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.cam-time {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ---------- 3. the camera frame ---------- */
+
+/* arena floor: center ring + halfway line + dark vignette, all gradients */
+.cam-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 15%, rgba(255, 106, 43, 0.35) 15.5%, transparent 16.5%),
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 106, 43, 0.25) calc(50% - 1px), rgba(255, 106, 43, 0.25) calc(50% + 1px), transparent calc(50% + 1px)),
+    radial-gradient(ellipse at center, #1a2433, var(--bg) 80%);
+}
+
+/* grid on its own layer so it can flicker without moving the floor */
+.cam-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(46, 230, 246, 0.1) 1px, transparent 1px) 0 0 / 6.25% 11.11%,
+    linear-gradient(90deg, rgba(46, 230, 246, 0.1) 1px, transparent 1px) 0 0 / 6.25% 11.11%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* each bot is placed with --x / --y / --w set inline in the html */
+.cam-obj {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+}
+
+.cam-obj img {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  transition: filter 0.4s ease;
+}
+
+/* volt is moving fast, so it gets a slight blur and a ghost trail */
+.obj-blur img {
+  filter: blur(0.6px) drop-shadow(-10px 0 0 rgba(46, 230, 246, 0.3));
+}
+
+/* hazard-striped wall in the corner that hides half of one bot */
+.pit-wall {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 25%;
+  height: 40%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  background:
+    repeating-linear-gradient(-45deg, var(--yellow) 0 6px, #111 6px 12px) top / 100% 8px no-repeat,
+    var(--panel-2);
+  border-top-left-radius: var(--radius);
+}
+
+/* the scan beam is as tall as the frame and slides from above to below it */
+.cam-beam {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: linear-gradient(180deg, transparent 70%, rgba(46, 230, 246, 0.2) 95%, rgba(46, 230, 246, 0.9) 100%);
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* the frame's hud corners sit above the bots */
+.cam-frame.hud-corners::before,
+.cam-frame.hud-corners::after {
+  z-index: 5;
+}
+
+/* ---------- 4. bounding boxes + tags ---------- */
+
+/* box wraps the bot's picture. --bx trims the empty sides of the svg, --bb trims the bottom */
+.det {
+  position: absolute;
+  top: -2%;
+  right: var(--bx, 16%);
+  bottom: var(--bb, 2%);
+  left: var(--bx, 16%);
+  z-index: 3;
+  border: 1px solid var(--c);
+  background: color-mix(in srgb, var(--c) 8%, transparent);
+  opacity: 0;
+  transition: filter var(--speed);
+}
+
+/* corner brackets, same trick as .hud-corners */
+.det::before,
+.det::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 3px solid var(--c);
+}
+
+.det::before {
+  top: -3px;
+  left: -3px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.det::after {
+  bottom: -3px;
+  right: -3px;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* low confidence = dashed box, so it reads as "maybe" even without color */
+.det-unsure .det {
+  border-style: dashed;
+}
+
+/* label above the box: name, class, score, threat */
+.det-tag {
+  position: absolute;
+  left: -3px;
+  bottom: calc(100% + 3px);
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.1rem 0.35rem;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--c);
+  border-radius: 3px;
+}
+
+/* tag for a bot on the right edge grows to the left instead */
+.det-tag.tag-end {
+  left: auto;
+  right: -3px;
+}
+
+.det-tag .chip {
+  padding: 0 0.35rem;
+  font-size: 0.6rem;
+  background: var(--bg);
+}
+
+/* on phones the tags only show name + score, the list below has the rest */
+.tag-more {
+  display: none;
+}
+
+/* ---------- 5. side panel ---------- */
+.cam-out h3 {
+  font-size: var(--fs-lg);
+  margin-bottom: var(--space-2);
+}
+
+/* one block per mode, all hidden until their radio is checked */
+.out-idle,
+.out-scan,
+.out-result,
+.cam-status .chip {
+  display: none;
+}
+
+.cam-progress .fill {
+  animation: none;
+}
+
+.cam-steps {
+  margin: var(--space-3) 0;
+  padding-left: 1.2rem;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.cam-steps li {
+  margin-bottom: var(--space-1);
+}
+
+/* class filter - small pill buttons */
+.cam-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.cf {
+  position: relative;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.cf:hover {
+  border-color: var(--cyan);
+}
+
+.cf:has(input:checked) {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(46, 230, 246, 0.1);
+}
+
+.det-list {
+  list-style: none;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.det-row {
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  font-size: var(--fs-sm);
+  transition: filter var(--speed);
+}
+
+.det-row.det-unsure {
+  border-style: dashed;
+  border-left-style: solid;
+}
+
+.det-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.det-head strong {
+  font-family: var(--font-head);
+  font-size: var(--fs-base);
+}
+
+.det-row .stat {
+  grid-template-columns: 3rem 1fr 2.5rem;
+}
+
+.det-row p {
+  margin-top: var(--space-2);
+}
+
+/* white tick on each confidence bar at 0.50 = the cut-off */
+.conf {
+  position: relative;
+}
+
+.conf::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--text);
+}
+
+.cam-cutoff {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ---------- 6. mode: live feed (idle) ---------- */
+.cam:has(#cam-live:checked) .out-idle {
+  display: block;
+}
+
+.cam:has(#cam-live:checked) .st-idle {
+  display: inline-flex;
+}
+
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: blink 1.2s steps(2) infinite;
+}
+
+/* ---------- 7. mode: scan ---------- */
+.cam:has(#cam-scan:checked) .out-scan {
+  display: block;
+}
+
+.cam:has(#cam-scan:checked) .st-scan {
+  display: inline-flex;
+}
+
+.cursor {
+  animation: blink 0.8s steps(2) infinite;
+}
+
+/* beam sweeps, grid flickers */
+.cam:has(#cam-scan:checked) .cam-beam {
+  opacity: 1;
+  animation: cam-sweep 1.6s linear infinite;
+}
+
+.cam:has(#cam-scan:checked) .cam-grid {
+  animation: cam-flicker 1.2s steps(6) infinite;
+}
+
+/* bots go grey while the "detector" looks at them */
+.cam:has(#cam-scan:checked) .cam-obj img {
+  filter: grayscale(1) brightness(1.2) contrast(1.2);
+}
+
+/* progress bar fills once, reusing bar-grow from the stat bars */
+.cam:has(#cam-scan:checked) .cam-progress .fill {
+  animation: bar-grow 2.4s linear both;
+}
+
+/* each pipeline step fades in one after the other */
+.cam:has(#cam-scan:checked) .cam-steps li {
+  animation: fade-up 0.4s ease both;
+}
+
+.cam-steps li:nth-child(2) { animation-delay: 0.6s; }
+.cam-steps li:nth-child(3) { animation-delay: 1.2s; }
+.cam-steps li:nth-child(4) { animation-delay: 1.8s; }
+
+/* once the bar is full the results button pulses to say "next" */
+.cam:has(#cam-scan:checked) label[for="cam-results"] {
+  animation: pulse 1.8s ease-out 2.4s infinite;
+}
+
+/* ---------- 8. mode: results ---------- */
+.cam:has(#cam-results:checked) .out-result {
+  display: block;
+}
+
+.cam:has(#cam-results:checked) .st-result {
+  display: inline-flex;
+}
+
+/* boxes snap on one by one (--d is set inline on each box) */
+.cam:has(#cam-results:checked) .det {
+  animation: box-lock 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d) both;
+}
+
+/* tag pops in just after its box */
+.cam:has(#cam-results:checked) .det-tag {
+  animation: pop-in 0.35s ease calc(var(--d) + 0.35s) both;
+}
+
+/* class filter: fade out what doesn't match (filter, since the box animation uses opacity) */
+.cam:has(#cf-tank:checked) .cam-obj:not(.det-tank) .det,
+.cam:has(#cf-speed:checked) .cam-obj:not(.det-speed) .det,
+.cam:has(#cf-support:checked) .cam-obj:not(.det-support) .det,
+.cam:has(#cf-tank:checked) .det-row:not(.det-tank),
+.cam:has(#cf-speed:checked) .det-row:not(.det-speed),
+.cam:has(#cf-support:checked) .det-row:not(.det-support) {
+  filter: grayscale(1) opacity(0.25);
+}
+
+/* ---------- 9. media queries ---------- */
+
+/* tablet: buttons go in one line, detections in two columns */
+@media (min-width: 640px) {
+  .cam-mode {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .det-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .det-tag {
+    font-size: 0.68rem;
+  }
+
+  .tag-more {
+    display: inline;
+  }
+
+  .det-tag .tag-more.chip {
+    display: inline-flex;
+  }
+}
+
+/* desktop: frame on the left, panel on the right */
+@media (min-width: 960px) {
+  .cam-body {
+    grid-template-columns: 1.6fr 1fr;
+    align-items: start;
+  }
+
+  .det-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* reduced motion: no sweep or flicker, boxes and steps just appear */
+@media (prefers-reduced-motion: reduce) {
+  .cam:has(#cam-scan:checked) .cam-beam {
+    display: none;
+  }
+
+  .cam .cam-grid,
+  .cam .cam-mode,
+  .cam .rec-dot,
+  .cam .cursor {
+    animation: none !important;
+  }
+
+  .cam .det,
+  .cam .det-tag,
+  .cam .cam-steps li {
+    animation-delay: 0s !important;
+  }
+}

@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/arena-cam.css">
   <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
@@ -92,6 +93,7 @@
               </div>
               <p class="text-muted">Volt was too fast to hit, Titan was too tough to break. Rematch is tonight's main event.</p>
               <a class="btn btn-ghost" href="#replay-3">View replay</a>
+              <a class="btn btn-ghost" href="#arena-cam">Scan a frame</a>
             </article>
           </li>
         </ol>
@@ -127,6 +129,154 @@
         </div>
       </section>
     </div>
+
+    <!-- bonus: arena cam - a pretend computer vision scan of one match frame -->
+    <!-- the radios are inside .cam, so .cam:has(...) can switch every part of it -->
+    <section id="arena-cam" class="cam panel hud-corners" aria-labelledby="cam-title">
+      <div class="hud-title">
+        <div>
+          <span class="eyebrow">Bonus // computer vision mockup</span>
+          <h2 id="cam-title">Arena Cam</h2>
+        </div>
+        <span class="chip chip-cyan"><span aria-hidden="true">&#9673;</span> CAM-02 // wide</span>
+      </div>
+
+      <p class="text-muted">This is one frame from the arena camera during <strong>Titan-07 vs Volt Runner</strong> (9:05 AM). Run a scan and the camera "finds" each robot: it draws a box around it, guesses what kind of bot it is and says how sure it is. That is the idea behind <strong>object detection</strong> in computer vision.</p>
+
+      <div class="hint">
+        <span aria-hidden="true">&#9888;</span>
+        <p><strong>Simulated detection:</strong> static HTML/CSS mockup, no real model or camera. Every box, label and score is typed into the HTML by hand.</p>
+      </div>
+
+      <!-- step buttons: real radios (hidden with .sr-only so they can still be tabbed to) -->
+      <fieldset class="cp-fieldset cam-modes">
+        <legend class="eyebrow">Camera mode</legend>
+        <div class="cam-mode-row">
+          <label class="cam-mode" for="cam-live">
+            <input class="sr-only" type="radio" name="cam-mode" id="cam-live" checked>
+            <span class="cam-step" aria-hidden="true">01</span> Live feed
+          </label>
+          <label class="cam-mode" for="cam-scan">
+            <input class="sr-only" type="radio" name="cam-mode" id="cam-scan">
+            <span class="cam-step" aria-hidden="true">02</span> Scan
+          </label>
+          <label class="cam-mode" for="cam-results">
+            <input class="sr-only" type="radio" name="cam-mode" id="cam-results">
+            <span class="cam-step" aria-hidden="true">03</span> Results
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="cam-body">
+        <figure class="cam-view">
+          <div class="cam-bar">
+            <!-- only the chip for the current mode is shown -->
+            <p class="cam-status mb-0">
+              <span class="chip chip-red st-idle"><span class="rec-dot" aria-hidden="true"></span> Live</span>
+              <span class="chip chip-cyan st-scan">Analyzing...<span class="cursor" aria-hidden="true">_</span></span>
+              <span class="chip chip-green st-result"><span aria-hidden="true">&#10003;</span> 3 found, 1 unsure</span>
+            </p>
+            <span class="cam-time">09:05:42 // frame 1184</span>
+          </div>
+
+          <!-- bots and boxes use % positions, so the boxes stay on the bots at any width -->
+          <div class="cam-frame hud-corners">
+            <span class="cam-grid" aria-hidden="true"></span>
+
+            <div class="cam-obj det-tank" style="--x:14%; --y:30%; --w:21%; --bx:6%;">
+              <img src="images/titan.svg" alt="Titan-07 on the left side of the arena">
+              <span class="det" style="--d:0s;" aria-hidden="true">
+                <span class="det-tag">TITAN-07 <span class="tag-more">&middot; tank</span> <b>0.97</b> <span class="chip chip-red tag-more">&#9650; high</span></span>
+              </span>
+            </div>
+
+            <div class="cam-obj det-speed obj-blur" style="--x:50%; --y:16%; --w:15%;">
+              <img src="images/volt.svg" alt="Volt Runner moving fast across the top of the arena">
+              <span class="det" style="--d:0.25s;" aria-hidden="true">
+                <span class="det-tag">VOLT <span class="tag-more">&middot; speed</span> <b>0.88</b> <span class="chip chip-yellow tag-more">&#9670; med</span></span>
+              </span>
+            </div>
+
+            <div class="cam-obj det-support" style="--x:56%; --y:58%; --w:13%;">
+              <img src="images/medic.svg" alt="Medic-Bay parked near the pit lane">
+              <span class="det" style="--d:0.5s;" aria-hidden="true">
+                <span class="det-tag">MEDIC <span class="tag-more">&middot; support</span> <b>0.93</b> <span class="chip chip-green tag-more">&#9660; low</span></span>
+              </span>
+            </div>
+
+            <!-- this one is half behind the pit wall, so its box is dashed and only covers what the camera can see -->
+            <div class="cam-obj det-unsure" style="--x:82%; --y:42%; --w:14%; --bb:42%;">
+              <img src="images/blink.svg" alt="A yellow robot partly hidden behind the pit wall">
+              <span class="det" style="--d:0.75s;" aria-hidden="true">
+                <span class="det-tag tag-end">??? <b>0.41</b> <span class="tag-more">uncertain</span></span>
+              </span>
+            </div>
+
+            <span class="pit-wall" aria-hidden="true">PIT</span>
+            <span class="cam-beam" aria-hidden="true"></span>
+          </div>
+          <figcaption>CAM-02 wide shot: Titan-07 vs Volt Runner, with Medic-Bay waiting by the pit lane.</figcaption>
+        </figure>
+
+        <!-- side panel: one block per mode, the detections list is the text version of the boxes -->
+        <div class="cam-out">
+          <div class="out-idle">
+            <h3>Waiting for a scan</h3>
+            <p class="text-muted mb-0">The camera is just streaming. Pick <strong>Scan</strong> to run the pretend detector on this frame, then <strong>Results</strong> to see what it found.</p>
+          </div>
+
+          <div class="out-scan">
+            <h3>Scanning frame...</h3>
+            <div class="stat cam-progress"><span>FRAME</span><span class="bar"><span class="fill fill-cyan" style="--val:100%"></span></span><span>2.4s</span></div>
+            <ol class="cam-steps">
+              <li>Look for anything shaped like a robot</li>
+              <li>Draw a box around each one</li>
+              <li>Guess the class: tank, speed or support</li>
+              <li>Score how sure it is, from 0 to 1</li>
+            </ol>
+            <p class="text-muted mb-0">When the bar is full, pick <strong>Results</strong>.</p>
+          </div>
+
+          <div class="out-result">
+            <h3 id="det-title">Detections</h3>
+
+            <fieldset class="cp-fieldset cam-filter">
+              <legend class="sr-only">Highlight one class</legend>
+              <label class="cf" for="cf-all"><input class="sr-only" type="radio" name="cam-filter" id="cf-all" checked>All</label>
+              <label class="cf" for="cf-tank"><input class="sr-only" type="radio" name="cam-filter" id="cf-tank">Tank</label>
+              <label class="cf" for="cf-speed"><input class="sr-only" type="radio" name="cam-filter" id="cf-speed">Speed</label>
+              <label class="cf" for="cf-support"><input class="sr-only" type="radio" name="cam-filter" id="cf-support">Support</label>
+            </fieldset>
+
+            <ol class="det-list" aria-labelledby="det-title">
+              <li class="det-row det-tank">
+                <div class="det-head"><strong>Titan-07</strong> <span class="chip chip-orange">Tank</span></div>
+                <div class="stat"><span>CONF</span><span class="bar conf"><span class="fill fill-green" style="--val:97%"></span></span><span>0.97</span></div>
+                <span class="chip chip-red"><span aria-hidden="true">&#9650;</span> High threat</span>
+              </li>
+              <li class="det-row det-speed">
+                <div class="det-head"><strong>Volt Runner</strong> <span class="chip chip-cyan">Speed</span></div>
+                <div class="stat"><span>CONF</span><span class="bar conf"><span class="fill fill-green" style="--val:88%"></span></span><span>0.88</span></div>
+                <span class="chip chip-yellow"><span aria-hidden="true">&#9670;</span> Medium threat</span>
+                <p class="text-muted mb-0">A bit lower because it is blurry from moving so fast.</p>
+              </li>
+              <li class="det-row det-support">
+                <div class="det-head"><strong>Medic-Bay</strong> <span class="chip chip-green">Support</span></div>
+                <div class="stat"><span>CONF</span><span class="bar conf"><span class="fill fill-green" style="--val:93%"></span></span><span>0.93</span></div>
+                <span class="chip chip-green"><span aria-hidden="true">&#9660;</span> Low threat</span>
+              </li>
+              <li class="det-row det-unsure">
+                <div class="det-head"><strong>Unknown bot</strong> <span class="chip chip-yellow"><span aria-hidden="true">?</span> Uncertain</span></div>
+                <div class="stat"><span>CONF</span><span class="bar conf"><span class="fill fill-red" style="--val:41%"></span></span><span>0.41</span></div>
+                <p class="text-muted mb-0">Half hidden behind the pit wall, maybe Blink. It is under the 0.50 cut-off, so it is <strong>not counted</strong>, but it stays on screen for a person to check.</p>
+              </li>
+            </ol>
+
+            <p class="cam-cutoff mb-0"><span aria-hidden="true">&#9474;</span> line on each bar = 0.50 cut-off &middot; 3 counted &middot; 1 flagged</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- replay overlays: they show when the url ends in #replay-1, #replay-2 etc -->
