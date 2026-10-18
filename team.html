@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IRONCLASH team introduction - project leader, roles, responsibilities and time tracking.">
+  <title>Team | IRONCLASH</title>
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="IRONCLASH home">
+        <img class="brand-mark" src="images/logo.svg" alt="">
+        IRON<span>CLASH</span>
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-toggle-label"><span class="burger"></span> Menu</label>
+      <nav class="main-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="roster.html">Arena Roster</a></li>
+          <li><a href="battle-log.html">Battle Log</a></li>
+          <li><a href="control-panel.html">Control Panel</a></li>
+          <li><a href="team.html" aria-current="page">Team</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="page-head">
+      <span class="eyebrow">CSC 4370 // Project 1 // Team introduction</span>
+      <h1>The Team Behind IRONCLASH</h1>
+      <p class="project-pitch">"A responsive, HTML and CSS only robot arena dashboard with a live roster, a battle log, a hands-on control panel and a simulated arena camera, built around a reusable combat HUD design system."</p>
+      <ul class="project-facts">
+        <li><span class="chip chip-cyan">Track E</span> Robot Arena Dashboard</li>
+        <li><span class="chip chip-orange">Pack</span> Combat HUD</li>
+        <li><span class="chip chip-green">Bonus</span> Computer vision overlay (Arena Cam)</li>
+        <li><span class="chip chip-yellow">Folder</span> <span class="mono">Sharma_RobotArena</span></li>
+      </ul>
+    </section>
+
+    <!-- project leader -->
+    <section class="section" aria-labelledby="leader-title">
+      <h2 id="leader-title">Project Leader</h2>
+      <article class="panel hud-corners leader">
+        <div class="avatar" aria-hidden="true">RS</div>
+        <div>
+          <h3 class="mb-0">Rajan Sharma</h3>
+          <p class="mt-0 text-accent mono">Project Leader &middot; solo build</p>
+          <p class="mb-0"><a href="mailto:rsharma30@student.gsu.edu">rsharma30@student.gsu.edu</a></p>
+        </div>
+      </article>
+
+      <div class="grid grid-4 mt-4">
+        <article class="card">
+          <h3>Coordination</h3>
+          <ul class="duty-list">
+            <li>Ran the daily check-in (solo stand-up)</li>
+            <li>Kept the Kanban board current</li>
+            <li>Set scope and priorities</li>
+            <li>Cleared blockers</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Reporting</h3>
+          <ul class="duty-list">
+            <li>Wrote the development journal</li>
+            <li>Logged time by phase</li>
+            <li>Recorded QA findings</li>
+            <li>Prepared the presentation</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Technical</h3>
+          <ul class="duty-list">
+            <li>Owned code quality and consistency</li>
+            <li>Managed the GitHub repository</li>
+            <li>Kept the CSS architecture in order</li>
+            <li>Reviewed every page before committing</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Submission</h3>
+          <ul class="duty-list">
+            <li>Upload to the CODD server</li>
+            <li>Push final code to GitHub</li>
+            <li>Organize the project folder</li>
+            <li>Submit the YouTube link</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- one person, every role - so the roles are split out to show what each job covered -->
+    <section class="section" aria-labelledby="roles-title">
+      <div class="section-head">
+        <h2 id="roles-title">Roles &amp; Responsibilities</h2>
+        <p>Solo project, so every role below is Rajan. Splitting the work into roles kept each Kanban card small and made it clear which hat I was wearing.</p>
+      </div>
+
+      <div class="grid grid-2">
+        <article class="card role-card">
+          <span class="chip chip-cyan">Role 01</span>
+          <h3>UI / UX Designer</h3>
+          <ul class="duty-list">
+            <li>Picked the dark HUD palette and the orange/cyan accents</li>
+            <li>Set up the CSS variables (colors, type scale, spacing)</li>
+            <li>Wireframed all five pages, desktop and mobile</li>
+            <li>Chose the three font roles: headings, body, data</li>
+          </ul>
+        </article>
+        <article class="card role-card">
+          <span class="chip chip-orange">Role 02</span>
+          <h3>Layout Developer</h3>
+          <ul class="duty-list">
+            <li>Built the semantic HTML for every page</li>
+            <li>Grid for page sections, Flexbox for rows and controls</li>
+            <li>Mobile-first breakpoints at 640px and 960px</li>
+            <li>CSS-only menu toggle for small screens</li>
+          </ul>
+        </article>
+        <article class="card role-card">
+          <span class="chip chip-green">Role 03</span>
+          <h3>CSS Animation Specialist</h3>
+          <ul class="duty-list">
+            <li>Keyframes for pulse, scan, ticker, power-up flash and countdown</li>
+            <li>Hover and focus transitions on cards and buttons</li>
+            <li>Arena Cam scan and result sequence</li>
+            <li>Reduced-motion fallback for all of it</li>
+          </ul>
+        </article>
+        <article class="card role-card">
+          <span class="chip chip-yellow">Role 04</span>
+          <h3>QA &amp; Accessibility Tester</h3>
+          <ul class="duty-list">
+            <li>Checked 375, 768 and 1280px widths</li>
+            <li>Keyboard-only run through every page</li>
+            <li>Checked contrast, alt text and heading order</li>
+            <li>Checked links and assets before upload</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- time tracking by phase, the way the course asks for it -->
+    <section class="section" aria-labelledby="time-title">
+      <div class="section-head">
+        <h2 id="time-title">Member Time Tracking</h2>
+        <p>Hours logged by project phase. The development journal has the details for each session.</p>
+      </div>
+
+      <div class="panel">
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="time-title">
+          <table class="results-table time-table">
+            <caption class="sr-only">Hours worked per phase</caption>
+            <thead>
+              <tr>
+                <th scope="col">Member</th>
+                <th scope="col">Proposal &amp; plan</th>
+                <th scope="col">Layout (HTML)</th>
+                <th scope="col">Motion (CSS)</th>
+                <th scope="col">Polish &amp; QA</th>
+                <th scope="col">Presentation</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Rajan Sharma</th>
+                <td>1.0 h</td>
+                <td>2.0 h</td>
+                <td>2.0 h</td>
+                <td>1.5 h</td>
+                <td>1.5 h</td>
+                <td>8.0 h</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>Team total</td>
+                <td>1.0 h</td>
+                <td>2.0 h</td>
+                <td>2.0 h</td>
+                <td>1.5 h</td>
+                <td>1.5 h</td>
+                <td>8.0 h</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- stand-up format -->
+    <section class="section" aria-labelledby="standup-title">
+      <h2 id="standup-title">Daily Stand-up</h2>
+      <div class="grid grid-3">
+        <article class="card">
+          <h3>Format</h3>
+          <p class="mb-0">Solo, so the stand-up is a written 10 minute check-in at the start of each work block. The answers go in the development journal and the Kanban board gets updated right after.</p>
+        </article>
+        <article class="card">
+          <h3>Three questions</h3>
+          <ol class="duty-list">
+            <li>What did I finish last block?</li>
+            <li>What am I working on now?</li>
+            <li>Anything blocking me?</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Output</h3>
+          <ul class="duty-list">
+            <li>Kanban cards moved</li>
+            <li>Decisions written down</li>
+            <li>A commit with a clear message</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="hint">
+        <span aria-hidden="true">&#9432;</span>
+        <p><strong>Want to see the result?</strong> Start on the <a href="index.html">Home</a> page, then meet the bots in the <a href="roster.html">Arena Roster</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="mb-0">IRONCLASH &copy; 2026 &middot; CSC 4370 Project 1 &middot; HTML + CSS only</p>
+      <p class="mb-0"><a href="team.html">Team</a> &middot; <a href="#main">Back to top</a></p>
+    </div>
+  </footer>
+</body>
+</html>

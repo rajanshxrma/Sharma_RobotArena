@@ -1606,7 +1606,7 @@ table {
   animation: bar-grow 3s linear both;
 }
 
-/* ---------- 11. bonus: ai pilot model comparison (flip cards) ---------- */
+/* ---------- 11. control panel: ai pilot loadout cards (flip cards) ---------- */
 .model-grid {
   display: grid;
   gap: var(--space-4);
@@ -1768,6 +1768,43 @@ table {
   font-weight: 700;
   color: var(--text);
   border-top: 2px solid var(--accent);
+}
+
+/* row headers in the time table read like normal cells, just bold */
+.time-table tbody th {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.project-pitch {
+  font-size: var(--fs-lg);
+  font-style: italic;
+  color: var(--text);
+}
+
+.project-facts {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.project-facts li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* role cards - the chip sits above the title like a badge */
+.role-card .chip {
+  margin-bottom: var(--space-2);
 }
 
 /* ---------- 13. utilities ---------- */
