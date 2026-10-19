@@ -99,6 +99,6 @@ More detail and the test checks are in [docs/bonus-arena-cam.md](docs/bonus-aren
 
 ## notes
 
-I used AI coding tools while building this, for the code and the docs. I went through and tested all of it and can explain any part of it.
+I used AI tools while building this, for the code, the docs and the video voice-over. I went through and tested all of it and can explain any part of it.
 
 Fonts are from Google Fonts (Chakra Petch, Inter, JetBrains Mono, all under the SIL Open Font License). The robot svgs and logo were made for this project.
