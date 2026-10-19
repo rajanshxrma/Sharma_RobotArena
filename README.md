@@ -1,6 +1,6 @@
 # IRONCLASH - robot arena dashboard
 
-CSC 4370 Project 1 (HTML/CSS) - Rajan Sharma (solo)
+CSC 4370 Project 1 (HTML/CSS) - Rajan Sharma
 
 IRONCLASH is a dashboard for a made up robot fighting league. You can check out the bots, look at last night's matches, run a fake arena camera scan, and set up your own robot before a match. It's all HTML and CSS, no javascript. Everything that changes on the page is done with css states like `:checked`, `:has()` and `:target`.
 

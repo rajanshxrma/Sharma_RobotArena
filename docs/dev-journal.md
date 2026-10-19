@@ -46,7 +46,7 @@ done: control panel
 now: team intro page
 blockers: none
 
-- It's a solo project, so I split the work into four roles (designer, layout, animation, QA). That kept my kanban cards small.
+- Split the work into four roles (designer, layout, animation, QA). That kept my kanban cards small.
 - Time tracking is by phase, the way the course asks for it.
 - On phones the time table scrolls sideways inside its box. You can't scroll a box from the keyboard unless it can be focused, so I gave it `tabindex="0"`, `role="region"` and a label.
 - Renamed the AI pilot cards on the control panel to "step 05" so it's clear the arena cam is my one bonus feature.
